@@ -1,0 +1,24 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# User specific aliases and functions
+
+
+# PROMPT
+PS1="\[\e[36;40m\]\u@\h\[\e[00m\]:\[\e[33;40m\]\w\[\e[00m\]\\$ "
+
+# COLORS
+export CLICOLOR=1
+
+# EDITOR
+export EDITOR=vim
+
+# MAVEN
+export M2_HOME=@@M2_HOME@@
+export MAVEN_OPTS="-Xshare:auto -Xms128M -Xmx1G -XX:MaxPermSize=256M -Djava.net.preferIPv4Stack=true -Dcom.sun.media.jai.disableMediaLib=true"
+
+export PATH=$M2_HOME/bin:.:$PATH

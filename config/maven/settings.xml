@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings 
+  xmlns="http://maven.apache.org/SETTINGS/1.0.0" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <servers>
+    <!-- =========================== -->
+    <!-- eXoPlatform.prg credentials -->
+    <!-- =========================== -->
+    <!-- To upload in our repositories -->
+    <server>
+      <id>repository.exoplatform.org</id>
+      <username>@@EXO_LOGIN@@</username>
+      <password>@@EXO_PASSWORD@@</password>
+    </server>
+    <!-- To download from our private products repositories (IDEALL, PLF...) -->
+    <server>
+      <id>exo.private</id>
+      <username>@@EXO_LOGIN@@</username>
+      <password>@@EXO_PASSWORD@@</password>
+    </server>
+    <!-- To download from our staging repositories -->
+    <server>
+      <id>exo.staging</id>
+      <username>@@EXO_LOGIN@@</username>
+      <password>@@EXO_PASSWORD@@</password>
+    </server>    
+    <!-- =========================== -->
+    <!-- JBoss.org credentials       -->
+    <!-- =========================== -->
+    <server>
+      <!-- To deploy snapshots to JBoss repository -->
+      <id>jboss-snapshots-repository</id>
+      <username>@@JBOSS_LOGIN@@</username>
+      <password>@@JBOSS_PASSWORD@@</password>
+    </server>
+     <!-- To deploy releases to JBoss repository -->
+    <server>
+      <id>jboss-releases-repository</id>
+      <username>@@JBOSS_LOGIN@@</username>
+      <password>@@JBOSS_PASSWORD@@</password>
+    </server>
+  </servers>
+  <mirrors>
+    <mirror>
+      <id>exo-central-server</id>
+      <mirrorOf>external:*,!exo.private,!exo.staging,!jboss.staging</mirrorOf>
+      <url>http://repository.exoplatform.org/public</url>
+    </mirror>
+  </mirrors>
+  <profiles>
+    <!-- This profile is always activated and let you define properties for 
+    dependent environment stuffs -->
+    <profile>
+      <id>local-properties</id>
+      <properties>
+        <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
+        <exo.projects.directory.dependencies>@@TOOLS_DIR@@</exo.projects.directory.dependencies>
+        <exo.projects.app.tomcat.version>@@TOMCAT_DIRNAME@@</exo.projects.app.tomcat.version>
+        <exo.projects.app.jboss.version>@@JBOSS_DIRNAME@@</exo.projects.app.jboss.version>
+      </properties>
+    </profile>  
+    <profile>
+      <id>release</id>
+      <properties>
+        <gpg.passphrase>@@GPG_KEY_PASSPHRASE@@</gpg.passphrase>
+     </properties>
+    </profile>
+    <profile>
+      <id>exo-private</id>
+      <!-- Repositories to download eXo private binaries -->
+      <repositories>
+        <repository>
+          <id>exo.private</id>
+          <url>http://repository.exoplatform.org/private</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>exo.private</id>
+          <url>http://repository.exoplatform.org/private</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+    <profile>
+      <id>exo-staging</id>
+      <repositories>
+        <repository>
+          <id>exo.staging</id>
+          <url>http://repository.exoplatform.org/staging</url>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>exo.staging</id>
+          <url>http://repository.exoplatform.org/staging</url>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+    <profile>
+      <id>jboss-staging</id>
+      <repositories>
+        <repository>
+          <id>jboss.staging</id>
+          <url>https://repository.jboss.org/nexus/content/groups/staging/</url>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>jboss.staging</id>
+          <url>https://repository.jboss.org/nexus/content/groups/staging/</url>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>    
+    <profile>
+      <id>exo-central</id>
+      <repositories>
+        <repository>
+          <id>central</id>
+          <url>http://fake</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>central</id>
+          <url>http://fake</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile> 
+  </profiles>
+  <activeProfiles>
+    <!-- make these profiles active all the time -->
+    <activeProfile>exo-central</activeProfile>
+    <activeProfile>local-properties</activeProfile>
+    <activeProfile>exo-private</activeProfile>
+    <activeProfile>exo-staging</activeProfile>
+    <activeProfile>jboss-staging</activeProfile>
+  </activeProfiles>
+  <pluginGroups>
+    <pluginGroup>org.exoplatform.maven.plugins</pluginGroup>
+    <pluginGroup>org.sonatype.plugins</pluginGroup>
+  </pluginGroups>
+</settings>

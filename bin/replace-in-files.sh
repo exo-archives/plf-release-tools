@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eu
 SEP="`echo | tr '\n' '\001'`"
 
 if [ $# -lt 3 ]; then

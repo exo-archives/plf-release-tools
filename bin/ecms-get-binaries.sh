@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eu 
 
 SCRIPTS_DIR=${0%/*}
 source ${SCRIPTS_DIR}/common.sh

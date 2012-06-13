@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eu
 
 DATE=`date "+%Y-%m-%d--%H-%M-%S"`
 SEP="`echo | tr '\n' '\001'`"
@@ -8,16 +8,19 @@ MAVEN_VERSION="2.2.1"
 MAVEN_ARCHIVE="apache-maven-$MAVEN_VERSION-bin.zip"
 MAVEN_DIRNAME="apache-maven-$MAVEN_VERSION"
 MAVEN_URL="http://intranet.exoplatform.org/rest/jcr/repository/collaboration/Groups/platform/users/Documents/ReferenceBinaries/SWF/ApacheMaven/$MAVEN_ARCHIVE"
+
 # Tomcat Infos (Used to package products)
 TOMCAT_VERSION="6.0.32"
 TOMCAT_ARCHIVE="apache-tomcat-$TOMCAT_VERSION.zip"
 TOMCAT_DIRNAME="apache-tomcat-$TOMCAT_VERSION"
 TOMCAT_URL="http://intranet.exoplatform.org/rest/jcr/repository/collaboration/Groups/platform/users/Documents/ReferenceBinaries/GateIn-3.0.x/ApacheTomcat/$TOMCAT_ARCHIVE"
+
 # OpenFire Infos (Used to package products)
 OPENFIRE_VERSION="3.6.4"
 OPENFIRE_ARCHIVE="openfire-$OPENFIRE_VERSION.zip"
 OPENFIRE_DIRNAME="openfire-$OPENFIRE_VERSION"
 OPENFIRE_URL="http://intranet.exoplatform.org/rest/jcr/repository/collaboration/Groups/platform/users/Documents/ReferenceBinaries/GateIn-3.0.x/OpenFire/$OPENFIRE_ARCHIVE"
+
 # Jboss Infos (Used to package products)
 JBOSS_VERSION="5.0.1"
 JBOSS_ARCHIVE="jboss-eap-$JBOSS_VERSION.zip"

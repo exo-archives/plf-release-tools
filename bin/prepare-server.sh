@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eu
 
 # either 'aio' or 'plf'
 if [ -n "$1" ]

@@ -112,8 +112,8 @@ uname -a
 echo ">>> Java :"
 echo "JAVA_HOME   = $JAVA_HOME"
 java -version
-echo ">>> Subversion :"
-svn --version --quiet
+echo ">>> Git :"
+git --version
 echo ">>> Directories :"
 echo "HOME_DIR    = $HOME_DIR"
 echo "SCRIPTS_DIR = $SCRIPTS_DIR"
@@ -140,6 +140,11 @@ echo "==========================================================================
 echo "Ask and save user's credentials ..."
 echo "==============================================================================="
 initCredFile
+storeCredential github_login "GitHub Login"
+storeCredential github_password "GitHub Password"
+storeCredential github_passphrase "GitHub Passphrase"
+storeCredential github_fullname "GitHub Full Name"
+storeCredential github_email "GitHub Email"
 storeCredential exo_login "eXo Login"
 storeCredential exo_password "eXo Password"
 storeCredential jboss_login "JBoss Login"
@@ -158,8 +163,11 @@ installFile $CONFIG_DIR/bash/bashrc $HOME/.bashrc
 replaceInFile $HOME/.bashrc @@M2_HOME@@ $TOOLS_DIR/$MAVEN_DIRNAME
 source $HOME/.bashrc
 
-# SUBVERSION Config
-installFile $CONFIG_DIR/subversion/config $HOME/.subversion/config
+# Git Config
+installFile $CONFIG_DIR/git/gitconfig $HOME/.gitconfig
+replaceInFile $HOME/.gitconfig @@GITHUB_LOGIN@@          $(decompress $github_login)
+replaceInFile $HOME/.gitconfig @@GITHUB_FULLNAME@@       $(decompress $github_fullname)
+replaceInFile $HOME/.gitconfig @@GITHUB_EMAIL@@          $(decompress $github_email)
 
 # MAVEN Config
 installFile $CONFIG_DIR/maven/settings.xml $HOME/.m2/settings.xml

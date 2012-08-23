@@ -168,6 +168,8 @@ installFile $CONFIG_DIR/git/gitconfig $HOME/.gitconfig
 replaceInFile $HOME/.gitconfig @@GITHUB_LOGIN@@          $(decompress $github_login)
 replaceInFile $HOME/.gitconfig @@GITHUB_FULLNAME@@       $(decompress $github_fullname)
 replaceInFile $HOME/.gitconfig @@GITHUB_EMAIL@@          $(decompress $github_email)
+installFile $CONFIG_DIR/git/gitignore $HOME/.gitignore
+git config --global core.excludesfile $HOME/.gitignore
 
 # MAVEN Config
 installFile $CONFIG_DIR/maven/settings.xml $HOME/.m2/settings.xml

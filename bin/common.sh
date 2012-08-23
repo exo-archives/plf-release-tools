@@ -63,15 +63,29 @@ if [ ! -e $HOME/.gnupg/secring.gpg -o ! -e $HOME/.gnupg/pubring.gpg -o ! -e $HOM
 fi
 
 # #############
-# SVN Functions
+# GIT, SVN Functions
 # #############
 
-SVN_EXO_CREDENTIALS="--username="$(decompress "$exo_login")" --password="$(decompress "$exo_password")
 MVN_EXO_CREDENTIALS="-Dusername="$(decompress "$exo_login")" -Dpassword="$(decompress "$exo_password")
-SVN_JBOSS_CREDENTIALS="--username="$(decompress "$jboss_login")" --password="$(decompress "$jboss_password")
 MVN_JBOSS_CREDENTIALS="-Dusername="$(decompress "$jboss_login")" -Dpassword="$(decompress "$jboss_password")
 SVN_GOOGLE_CREDENTIALS="--username="$(decompress "$google_login")" --password="$(decompress "$google_password")
 MVN_GOOGLE_CREDENTIALS="-Dusername="$(decompress "$google_login")" -Dpassword="$(decompress "$google_password")
+
+# Executes $2 git command with "$@" parameters in $1 project directory
+function gitCommand {
+  PRJ=$1
+  COMMAND=$2
+  shift
+  shift
+  echo "Project $PRJ : git $COMMAND in progress ..."
+  git $COMMAND "$@" --git-dir=$PRJ_DIR/$PRJ/.git --work-tree=$PRJ_DIR/$PRJ
+  if [ "$?" -ne "0" ]; then
+    echo "!!! Sorry, git failed in $PRJ_DIR/$PRJ. Process aborted. !!!"
+    exit 1
+  fi
+  echo "Done."
+  echo "==============================================================================="  
+}
 
 # Executes $2 svn command with "$@" parameters in $1 project directory
 function svnCommand {

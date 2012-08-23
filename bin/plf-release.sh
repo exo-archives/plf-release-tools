@@ -315,24 +315,24 @@ function beforeRelease {
 }
 
 function prepareRelease {
-  mvnCommand $1 org.apache.maven.plugins:maven-release-plugin:2.0:prepare -Dtag=$THIS_RELEASE_VERSION -DreleaseVersion=$THIS_RELEASE_VERSION -DdevelopmentVersion=$THIS_NEXT_SNAPSHOT_VERSION -DscmCommentPrefix="[maven-release-plugin] [$THIS_RELEASE_JIRA_ID]" $THIS_MVN_CREDENTIALS $THIS_RELEASE_ADDITIONAL_OPTS
+  mvnCommand $1 org.apache.maven.plugins:maven-release-plugin:2.2.1:prepare -Dtag=$THIS_RELEASE_VERSION -DreleaseVersion=$THIS_RELEASE_VERSION -DdevelopmentVersion=$THIS_NEXT_SNAPSHOT_VERSION -DscmCommentPrefix="[maven-release-plugin] [$THIS_RELEASE_JIRA_ID]" $THIS_MVN_CREDENTIALS $THIS_RELEASE_ADDITIONAL_OPTS
 }
 
 function rollbackRelease {
-  mvnCommand $1 org.apache.maven.plugins:maven-release-plugin:2.0:rollback -DscmCommentPrefix="[maven-release-plugin] [$THIS_RELEASE_JIRA_ID]" $THIS_MVN_CREDENTIALS $THIS_RELEASE_ADDITIONAL_OPTS
+  mvnCommand $1 org.apache.maven.plugins:maven-release-plugin:2.2.1:rollback -DscmCommentPrefix="[maven-release-plugin] [$THIS_RELEASE_JIRA_ID]" $THIS_MVN_CREDENTIALS $THIS_RELEASE_ADDITIONAL_OPTS
 }
 
 function performRelease {
-  mvnCommand $1 org.apache.maven.plugins:maven-release-plugin:2.0:perform
+  mvnCommand $1 org.apache.maven.plugins:maven-release-plugin:2.2.1:perform
 }
 
 function createReleaseBranch {
-  mvnCommand $1 org.apache.maven.plugins:maven-release-plugin:2.0:branch -DbranchName=${THIS_RELEASE_VERSION}_REL $THIS_MVN_CREDENTIALS $THIS_RELEASE_ADDITIONAL_OPTS
+  mvnCommand $1 org.apache.maven.plugins:maven-release-plugin:2.2.1:branch -DbranchName=${THIS_RELEASE_VERSION}_REL $THIS_MVN_CREDENTIALS $THIS_RELEASE_ADDITIONAL_OPTS
 }
 
 function afterRelease {
-  svnCommand $1 revert -R
-  mvnCommand $1 clean
+  gtnCommand $1 fetch origin
+  #mvnCommand $1 clean
   replaceInFile "<org.exoplatform.kernel.version>$RELEASE_KERNEL_VERSION</org.exoplatform.kernel.version>"                    "<org.exoplatform.kernel.version>$NEXT_SNAPSHOT_KERNEL_VERSION</org.exoplatform.kernel.version>"                    $PRJ_DIR/$1/pom.xml
   replaceInFile "<org.exoplatform.core.version>$RELEASE_CORE_VERSION</org.exoplatform.core.version>"                          "<org.exoplatform.core.version>$NEXT_SNAPSHOT_CORE_VERSION</org.exoplatform.core.version>"                          $PRJ_DIR/$1/pom.xml
   replaceInFile "<org.exoplatform.ws.version>$RELEASE_WS_VERSION</org.exoplatform.ws.version>"                                "<org.exoplatform.ws.version>$NEXT_SNAPSHOT_WS_VERSION</org.exoplatform.ws.version>"                                $PRJ_DIR/$1/pom.xml
@@ -352,17 +352,17 @@ function afterRelease {
 }
 
 function commit {
-  svnCommand $1 commit -m"[$THIS_RELEASE_JIRA_ID] $2" $THIS_SVN_CREDENTIALS
+  gitCommand $1 commit -m "[$THIS_RELEASE_JIRA_ID] $2"
   return;
 }
 
 function status {
-  svnCommand $1 status
+  gitCommand $1 status
   return;
 }
 
 function diff {
-  svnCommand $1 diff
+  gitCommand $1 diff
   return;
 }
 
@@ -371,7 +371,7 @@ function usage {
  echo "  action  : The action to do"
  echo "    before-release | prepare-release | perform-release | rollback-release | after-release | full-release | commit | status | diff | ckeck-versions | create-release-branch"
  echo "  project : The project where action must be done" 
- echo "    kernel-2.2.x | core-2.3.x | ws-2.1.x | jcr-1.12.x | jcr-services-1.12.x | gatein-3.1.x | xcmis-1.1.x | gwt-fwk-1.0.x | ide-1.0.x | commons-1.0.x | ecms-2.1.x | social-1.1.x | cs-2.1.x | ks-2.1.x | plf-3.0.x"
+ echo "    kernel-2.2.x | core-2.3.x | ws-2.1.x | jcr-1.12.x | jcr-services-1.12.x | exogtn-3.1.x | xcmis-1.1.x | gwtframework-1.0.x | ide-1.0.x | commons-1.0.x | ecms-2.1.x | social-1.1.x | cs-2.1.x | ks-2.1.x | plf-3.0.x"
 }
 
 if [ $# -lt 1 ]; then

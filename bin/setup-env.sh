@@ -142,6 +142,7 @@ echo "==========================================================================
 initCredFile
 storeCredential github_login "GitHub Login"
 storeCredential github_password "GitHub Password"
+storeCredential github_sshprivatekey "File name contains GitHub SSH Private Key"
 storeCredential github_passphrase "GitHub Passphrase"
 storeCredential github_fullname "GitHub Full Name"
 storeCredential github_email "GitHub Email"
@@ -161,6 +162,7 @@ echo "==========================================================================
 # BASH Config
 installFile $CONFIG_DIR/bash/bashrc $HOME/.bashrc
 replaceInFile $HOME/.bashrc @@M2_HOME@@ $TOOLS_DIR/$MAVEN_DIRNAME
+replaceInFile $HOME/.bashrc @@GITHUB_SSH_PRIVATE_KEY@@ $(decompress $github_sshprivatekey)
 source $HOME/.bashrc
 
 # Git Config
@@ -241,5 +243,6 @@ $TOOLS_DIR/$TOMCAT_DIRNAME/bin/version.sh
 echo "==============================================================================="
 echo "eXo Platform release environment ready !!!"
 echo "==============================================================================="
+echo "!!! DO NOT FORGET TO SET UP YOUR GITHUB SSH PRIVATE KEY (~/.ssh/$(decompress $github_sshprivatekey)) !!!"
 
 exit 0

@@ -12,7 +12,7 @@ We consider that you have a dedicated user account for that usage on a computer 
 On this host you need the following prerequisites :
 
 * Subversion command line tool
-* Git	 command line tool
+* Git command line tool
 * Java Development Kit 1.6 
 * OpenOffice Headless Server (used in documentations conversions)
 
@@ -28,6 +28,14 @@ Checkout in the root of your account the content of plf-release-tools from Git (
 Setup all softwares required and settings with :
   
     ~/plf-release-tools/bin/setup-env.sh
+
+Clone from GitHub all platform projects with :
+
+    ~/plf-release-tools/bin/plf-git-clone.sh
+
+Release each platform projects with :
+
+    ~/plf-release-tools/bin/plf-release.sh
 
 Usage guide
 -----------

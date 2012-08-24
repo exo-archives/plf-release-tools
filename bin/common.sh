@@ -4,7 +4,7 @@ DATE=`date "+%Y-%m-%d--%H-%M-%S"`
 SEP="`echo | tr '\n' '\001'`"
 
 # Maven Infos (Used to build/release)
-MAVEN_VERSION="2.2.1"
+MAVEN_VERSION="3.0.3"
 MAVEN_ARCHIVE="apache-maven-$MAVEN_VERSION-bin.zip"
 MAVEN_DIRNAME="apache-maven-$MAVEN_VERSION"
 MAVEN_URL="http://intranet.exoplatform.org/rest/jcr/repository/collaboration/Groups/platform/users/Documents/ReferenceBinaries/SWF/ApacheMaven/$MAVEN_ARCHIVE"
@@ -22,9 +22,9 @@ OPENFIRE_DIRNAME="openfire-$OPENFIRE_VERSION"
 OPENFIRE_URL="http://intranet.exoplatform.org/rest/jcr/repository/collaboration/Groups/platform/users/Documents/ReferenceBinaries/GateIn-3.0.x/OpenFire/$OPENFIRE_ARCHIVE"
 
 # Jboss Infos (Used to package products)
-JBOSS_VERSION="5.0.1"
+JBOSS_VERSION="5.1.1"
 JBOSS_ARCHIVE="jboss-eap-$JBOSS_VERSION.zip"
-JBOSS_DIRNAME="jboss-eap-5.0/jboss-as"
+JBOSS_DIRNAME="jboss-eap-$JBOSS_VERSION/jboss-as"
 JBOSS_URL="http://intranet.exoplatform.org/rest/jcr/repository/collaboration/Groups/platform/users/Documents/ReferenceBinaries/JBoss-EAP/$JBOSS_ARCHIVE"
 
 # Directories

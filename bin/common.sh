@@ -78,7 +78,11 @@ function gitCommand {
   shift
   shift
   echo "Project $PRJ : git $COMMAND in progress ..."
-  git $COMMAND "$@" --git-dir=$PRJ_DIR/$PRJ/.git --work-tree=$PRJ_DIR/$PRJ
+  if [ "$COMMAND" = "clone" ]; then
+    (cd $PRJ_DIR && git $COMMAND "$@")
+  else
+    (cd $PRJ_DIR/$PRJ && git $COMMAND "$@")
+  fi
   if [ "$?" -ne "0" ]; then
     echo "!!! Sorry, git failed in $PRJ_DIR/$PRJ. Process aborted. !!!"
     exit 1

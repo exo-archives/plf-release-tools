@@ -72,6 +72,17 @@ function init {
     THIS_RELEASE_ADDITIONAL_OPTS="-Prelease,docs"
     return;
     ;;
+  "webos")
+    THIS_PROJECT="$1"
+    THIS_MVN_CREDENTIALS="$MVN_EXO_CREDENTIALS"
+    THIS_RELEASE_BRANCH="$RELEASE_WEBOS_BRANCH"
+    THIS_CURRENT_SNAPSHOT_VERSION="$CURRENT_SNAPSHOT_WEBOS_VERSION"
+    THIS_RELEASE_VERSION="$RELEASE_WEBOS_VERSION"
+    THIS_NEXT_SNAPSHOT_VERSION="$NEXT_SNAPSHOT_WEBOS_VERSION"
+    THIS_RELEASE_JIRA_ID="$RELEASE_WEBOS_JIRA_ID"
+    THIS_RELEASE_ADDITIONAL_OPTS=""
+    return;
+    ;;
   "xcmis")
     THIS_PROJECT="$1"
     THIS_SVN_CREDENTIALS="$SVN_GOOGLE_CREDENTIALS"
@@ -127,6 +138,17 @@ function init {
     THIS_RELEASE_ADDITIONAL_OPTS="-Ppkg-tomcat,arc-tomcat,wcm,wkf,dms,docs"
     return;
     ;;
+  "doc-style")
+    THIS_PROJECT="$1"
+    THIS_MVN_CREDENTIALS="$MVN_EXO_CREDENTIALS"
+    THIS_RELEASE_BRANCH="$RELEASE_DOCSTYLE_BRANCH"
+    THIS_CURRENT_SNAPSHOT_VERSION="$CURRENT_SNAPSHOT_DOCSTYLE_VERSION"
+    THIS_RELEASE_VERSION="$RELEASE_DOCSTYLE_VERSION"
+    THIS_NEXT_SNAPSHOT_VERSION="$NEXT_SNAPSHOT_DOCSTYLE_VERSION"
+    THIS_RELEASE_JIRA_ID="$RELEASE_DOCSTYLE_JIRA_ID"
+    THIS_RELEASE_ADDITIONAL_OPTS=""
+    return;
+    ;;
   "social")
     THIS_PROJECT="$1"
     THIS_MVN_CREDENTIALS="$MVN_EXO_CREDENTIALS"
@@ -158,6 +180,17 @@ function init {
     THIS_NEXT_SNAPSHOT_VERSION="$NEXT_SNAPSHOT_KS_VERSION"
     THIS_RELEASE_JIRA_ID="$RELEASE_KS_JIRA_ID"
     THIS_RELEASE_ADDITIONAL_OPTS="-Prelease,java-api-compat,pkg-tomcat,arc-tomcat,run-its"
+    return;
+    ;;
+  "integ")
+    THIS_PROJECT="$1"
+    THIS_MVN_CREDENTIALS="$MVN_EXO_CREDENTIALS"
+    THIS_RELEASE_BRANCH="$RELEASE_INTEG_BRANCH"
+    THIS_CURRENT_SNAPSHOT_VERSION="$CURRENT_SNAPSHOT_INTEG_VERSION"
+    THIS_RELEASE_VERSION="$RELEASE_INTEG_VERSION"
+    THIS_NEXT_SNAPSHOT_VERSION="$NEXT_SNAPSHOT_INTEG_VERSION"
+    THIS_RELEASE_JIRA_ID="$RELEASE_INTEG_JIRA_ID"
+    THIS_RELEASE_ADDITIONAL_OPTS=""
     return;
     ;;
   "platform")
@@ -196,6 +229,8 @@ function checkVersions {
   echo "==============================================================================="  
   ${SCRIPTS_DIR}/find-in-poms.sh "<org.exoplatform.portal.version>"        $PRJ_DIR/$1
   echo "==============================================================================="  
+  ${SCRIPTS_DIR}/find-in-poms.sh "<org.exoplatform.webos.version>"         $PRJ_DIR/$1
+  echo "==============================================================================="  
   ${SCRIPTS_DIR}/find-in-poms.sh "<org.exoplatform.gatein.version>"        $PRJ_DIR/$1
   echo "==============================================================================="  
   ${SCRIPTS_DIR}/find-in-poms.sh "<org.xcmis.version>"                     $PRJ_DIR/$1
@@ -216,6 +251,10 @@ function checkVersions {
   echo "==============================================================================="  
   ${SCRIPTS_DIR}/find-in-poms.sh "<org.exoplatform.social.version>"        $PRJ_DIR/$1
   echo "==============================================================================="  
+  ${SCRIPTS_DIR}/find-in-poms.sh "<org.exoplatform.integ.version>"         $PRJ_DIR/$1
+  echo "==============================================================================="  
+  ${SCRIPTS_DIR}/find-in-poms.sh "<doc-style.version>"                     $PRJ_DIR/$1
+  echo "==============================================================================="  
 
 }
 
@@ -226,6 +265,7 @@ function beforeRelease {
   replaceInFile "<org.exoplatform.jcr.version>$CURRENT_SNAPSHOT_JCR_VERSION</org.exoplatform.jcr.version>"                             "<org.exoplatform.jcr.version>$RELEASE_JCR_VERSION</org.exoplatform.jcr.version>"                             $PRJ_DIR/$1/pom.xml
   replaceInFile "<org.exoplatform.jcr-services.version>$CURRENT_SNAPSHOT_JCR_SERVICES_VERSION</org.exoplatform.jcr-services.version>"  "<org.exoplatform.jcr-services.version>$RELEASE_JCR_SERVICES_VERSION</org.exoplatform.jcr-services.version>"  $PRJ_DIR/$1/pom.xml
   replaceInFile "<org.exoplatform.portal.version>$CURRENT_SNAPSHOT_GATEIN_VERSION</org.exoplatform.portal.version>"                    "<org.exoplatform.portal.version>$RELEASE_GATEIN_VERSION</org.exoplatform.portal.version>"                    $PRJ_DIR/$1/pom.xml
+  replaceInFile "<org.exoplatform.webos.version>$CURRENT_SNAPSHOT_WEBOS_VERSION</org.exoplatform.webos.version>"                       "<org.exoplatform.webos.version>$RELEASE_WEBOS_VERSION</org.exoplatform.webos.version>"                       $PRJ_DIR/$1/pom.xml
   replaceInFile "<org.exoplatform.gatein.version>$CURRENT_SNAPSHOT_GATEIN_VERSION</org.exoplatform.gatein.version>"                    "<org.exoplatform.gatein.version>$RELEASE_GATEIN_VERSION</org.exoplatform.gatein.version>"                    $PRJ_DIR/$1/pom.xml
   replaceInFile "<org.xcmis.version>$CURRENT_SNAPSHOT_XCMIS_VERSION</org.xcmis.version>"                                               "<org.xcmis.version>$RELEASE_XCMIS_VERSION</org.xcmis.version>"                                               $PRJ_DIR/$1/pom.xml
   replaceInFile "<xcmis.version>$CURRENT_SNAPSHOT_XCMIS_VERSION</xcmis.version>"                                                       "<xcmis.version>$RELEASE_XCMIS_VERSION</xcmis.version>"                                                       $PRJ_DIR/$1/pom.xml
@@ -236,6 +276,8 @@ function beforeRelease {
   replaceInFile "<org.exoplatform.ks.version>$CURRENT_SNAPSHOT_KS_VERSION</org.exoplatform.ks.version>"                                "<org.exoplatform.ks.version>$RELEASE_KS_VERSION</org.exoplatform.ks.version>"                                $PRJ_DIR/$1/pom.xml
   replaceInFile "<org.exoplatform.ecms.version>$CURRENT_SNAPSHOT_ECMS_VERSION</org.exoplatform.ecms.version>"                          "<org.exoplatform.ecms.version>$RELEASE_ECMS_VERSION</org.exoplatform.ecms.version>"                          $PRJ_DIR/$1/pom.xml
   replaceInFile "<org.exoplatform.social.version>$CURRENT_SNAPSHOT_SOCIAL_VERSION</org.exoplatform.social.version>"                    "<org.exoplatform.social.version>$RELEASE_SOCIAL_VERSION</org.exoplatform.social.version>"                    $PRJ_DIR/$1/pom.xml
+  replaceInFile "<org.exoplatform.integ.version>$CURRENT_SNAPSHOT_INTEG_VERSION</org.exoplatform.integ.version>"                       "<org.exoplatform.integ.version>$RELEASE_INTEG_VERSION</org.exoplatform.integ.version>"                       $PRJ_DIR/$1/pom.xml
+  replaceInFile "<doc-style.version>$CURRENT_SNAPSHOT_DOCSTYLE_VERSION</doc-style.version>"                                            "<doc-style.version>$RELEASE_DOCSTYLE_VERSION</doc-style.version>"                                            $PRJ_DIR/$1/pom.xml
 }
 
 function prepareRelease {
@@ -265,6 +307,7 @@ function afterRelease {
   replaceInFile "<org.exoplatform.jcr.version>$RELEASE_JCR_VERSION</org.exoplatform.jcr.version>"                             "<org.exoplatform.jcr.version>$NEXT_SNAPSHOT_JCR_VERSION</org.exoplatform.jcr.version>"                             $PRJ_DIR/$1/pom.xml
   replaceInFile "<org.exoplatform.jcr-services.version>$RELEASE_JCR_SERVICES_VERSION</org.exoplatform.jcr-services.version>"  "<org.exoplatform.jcr-services.version>$NEXT_SNAPSHOT_JCR_SERVICES_VERSION</org.exoplatform.jcr-services.version>"  $PRJ_DIR/$1/pom.xml
   replaceInFile "<org.exoplatform.portal.version>$RELEASE_GATEIN_VERSION</org.exoplatform.portal.version>"                    "<org.exoplatform.portal.version>$NEXT_SNAPSHOT_GATEIN_VERSION</org.exoplatform.portal.version>"                    $PRJ_DIR/$1/pom.xml
+  replaceInFile "<org.exoplatform.webos.version>$RELEASE_WEBOS_VERSION</org.exoplatform.webos.version>"                       "<org.exoplatform.webos.version>$NEXT_SNAPSHOT_WEBOS_VERSION</org.exoplatform.webos.version>"                       $PRJ_DIR/$1/pom.xml
   replaceInFile "<org.exoplatform.gatein.version>$RELEASE_GATEIN_VERSION</org.exoplatform.gatein.version>"                    "<org.exoplatform.gatein.version>$NEXT_SNAPSHOT_GATEIN_VERSION</org.exoplatform.gatein.version>"                    $PRJ_DIR/$1/pom.xml
   replaceInFile "<org.xcmis.version>$RELEASE_XCMIS_VERSION</org.xcmis.version>"                                               "<org.xcmis.version>$NEXT_SNAPSHOT_XCMIS_VERSION</org.xcmis.version>"                                               $PRJ_DIR/$1/pom.xml
   replaceInFile "<xcmis.version>$RELEASE_XCMIS_VERSION</xcmis.version>"                                                       "<xcmis.version>$NEXT_SNAPSHOT_XCMIS_VERSION</xcmis.version>"                                                       $PRJ_DIR/$1/pom.xml
@@ -275,6 +318,8 @@ function afterRelease {
   replaceInFile "<org.exoplatform.ks.version>$RELEASE_KS_VERSION</org.exoplatform.ks.version>"                                "<org.exoplatform.ks.version>$NEXT_SNAPSHOT_KS_VERSION</org.exoplatform.ks.version>"                                $PRJ_DIR/$1/pom.xml
   replaceInFile "<org.exoplatform.ecms.version>$RELEASE_ECMS_VERSION</org.exoplatform.ecms.version>"                          "<org.exoplatform.ecms.version>$NEXT_SNAPSHOT_ECMS_VERSION</org.exoplatform.ecms.version>"                          $PRJ_DIR/$1/pom.xml
   replaceInFile "<org.exoplatform.social.version>$RELEASE_SOCIAL_VERSION</org.exoplatform.social.version>"                    "<org.exoplatform.social.version>$NEXT_SNAPSHOT_SOCIAL_VERSION</org.exoplatform.social.version>"                    $PRJ_DIR/$1/pom.xml
+  replaceInFile "<org.exoplatform.integ.version>$RELEASE_INTEG_VERSION</org.exoplatform.integ.version>"                       "<org.exoplatform.integ.version>$NEXT_SNAPSHOT_INTEG_VERSION</org.exoplatform.integ.version>"                       $PRJ_DIR/$1/pom.xml
+  replaceInFile "<doc-style.version>$RELEASE_DOCSTYLE_VERSION</doc-style.version>"                                            "<doc-style.version>$NEXT_SNAPSHOT_DOCSTYLE_VERSION</doc-style.version>"                                            $PRJ_DIR/$1/pom.xml
 }
 
 function commit {
@@ -299,7 +344,7 @@ function usage {
  echo "  action  : The action to do"
  echo "    before-release | prepare-release | perform-release | rollback-release | after-release | full-release | commit | status | diff | check-versions | create-release-branch"
  echo "  project : The project where action must be done" 
- echo "    kernel | core | ws | jcr | jcr-services | exogtn | xcmis | gwtframework | ide | commons | ecms | social | cs | ks | platform"
+ echo "    kernel | core | ws | jcr | jcr-services | exogtn | webos | xcmis | gwtframework | ide | commons | ecms | doc-style | social | cs | ks | integ | platform"
 }
 
 if [ $# -lt 1 ]; then

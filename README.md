@@ -33,6 +33,10 @@ Clone from GitHub all platform projects with :
 
     ~/plf-release-tools/bin/plf-git-clone.sh
 
+Configure the release by edit:
+
+    ~/plf-release-tools/bin/plf-release-config.sh
+
 Release each platform projects with :
 
     ~/plf-release-tools/bin/plf-release.sh

@@ -259,6 +259,7 @@ function checkVersions {
 }
 
 function beforeRelease {
+  rm -rf $M2_REPO
   replaceInFile "<org.exoplatform.kernel.version>$CURRENT_SNAPSHOT_KERNEL_VERSION</org.exoplatform.kernel.version>"                    "<org.exoplatform.kernel.version>$RELEASE_KERNEL_VERSION</org.exoplatform.kernel.version>"                    $PRJ_DIR/$1/pom.xml
   replaceInFile "<org.exoplatform.core.version>$CURRENT_SNAPSHOT_CORE_VERSION</org.exoplatform.core.version>"                          "<org.exoplatform.core.version>$RELEASE_CORE_VERSION</org.exoplatform.core.version>"                          $PRJ_DIR/$1/pom.xml
   replaceInFile "<org.exoplatform.ws.version>$CURRENT_SNAPSHOT_WS_VERSION</org.exoplatform.ws.version>"                                "<org.exoplatform.ws.version>$RELEASE_WS_VERSION</org.exoplatform.ws.version>"                                $PRJ_DIR/$1/pom.xml

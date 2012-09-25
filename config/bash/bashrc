@@ -20,6 +20,7 @@ export EDITOR=vim
 # MAVEN
 export M2_HOME=@@M2_HOME@@
 export MAVEN_OPTS="-Xshare:auto -Xms128M -Xmx1.5G -XX:MaxPermSize=256M -Djava.net.preferIPv4Stack=true -Dcom.sun.media.jai.disableMediaLib=true"
+export M2_REPO="$HOME/.m2/repository"
 
 export PATH=$M2_HOME/bin:.:$PATH
 

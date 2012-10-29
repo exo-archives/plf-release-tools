@@ -7,7 +7,7 @@ COMMAND=$1
 shift
 
 echo "==============================================================================="  
-echo "Executing GIT $COMMAND on all platform 3.0.x projects"
+echo "Executing GIT $COMMAND on all platform 3.5.x projects"
 echo "==============================================================================="  
 
 gitCommand kernel        $COMMAND   "$@"

@@ -80,7 +80,7 @@ function init {
     THIS_RELEASE_VERSION="$RELEASE_WEBOS_VERSION"
     THIS_NEXT_SNAPSHOT_VERSION="$NEXT_SNAPSHOT_WEBOS_VERSION"
     THIS_RELEASE_JIRA_ID="$RELEASE_WEBOS_JIRA_ID"
-    THIS_RELEASE_ADDITIONAL_OPTS=""
+    THIS_RELEASE_ADDITIONAL_OPTS="-Prelease"
     return;
     ;;
   "xcmis")
@@ -135,7 +135,7 @@ function init {
     THIS_RELEASE_VERSION="$RELEASE_ECMS_VERSION"
     THIS_NEXT_SNAPSHOT_VERSION="$NEXT_SNAPSHOT_ECMS_VERSION"
     THIS_RELEASE_JIRA_ID="$RELEASE_ECMS_JIRA_ID"
-    THIS_RELEASE_ADDITIONAL_OPTS="-Ppkg-tomcat,arc-tomcat,wcm,wkf,dms,docs"
+    THIS_RELEASE_ADDITIONAL_OPTS="-Prelease -Dgatein.working.dir=target"
     return;
     ;;
   "doc-style")
@@ -157,7 +157,7 @@ function init {
     THIS_RELEASE_VERSION="$RELEASE_SOCIAL_VERSION"
     THIS_NEXT_SNAPSHOT_VERSION="$NEXT_SNAPSHOT_SOCIAL_VERSION"
     THIS_RELEASE_JIRA_ID="$RELEASE_SOCIAL_JIRA_ID"
-    THIS_RELEASE_ADDITIONAL_OPTS="-Prelease,java-api-compat,run-its,pkg-tomcat,arc-tomcat"
+    THIS_RELEASE_ADDITIONAL_OPTS="-Prelease,distrib,run-its,pkg-tomcat,arc-tomcat -Dgatein.working.dir=target"
     return;
     ;;
   "cs")
@@ -168,7 +168,7 @@ function init {
     THIS_RELEASE_VERSION="$RELEASE_CS_VERSION"
     THIS_NEXT_SNAPSHOT_VERSION="$NEXT_SNAPSHOT_CS_VERSION"
     THIS_RELEASE_JIRA_ID="$RELEASE_CS_JIRA_ID"
-    THIS_RELEASE_ADDITIONAL_OPTS="-Prelease,pkg-tomcat,arc-tomcat,run-its"
+    THIS_RELEASE_ADDITIONAL_OPTS="-Prelease,pkg-tomcat,arc-tomcat,run-its -Dgatein.working.dir=target"
     return;
     ;;
   "ks")
@@ -179,7 +179,7 @@ function init {
     THIS_RELEASE_VERSION="$RELEASE_KS_VERSION"
     THIS_NEXT_SNAPSHOT_VERSION="$NEXT_SNAPSHOT_KS_VERSION"
     THIS_RELEASE_JIRA_ID="$RELEASE_KS_JIRA_ID"
-    THIS_RELEASE_ADDITIONAL_OPTS="-Prelease,java-api-compat,pkg-tomcat,arc-tomcat,run-its"
+    THIS_RELEASE_ADDITIONAL_OPTS="-Prelease,java-api-compat,pkg-tomcat,arc-tomcat -Dgatein.working.dir=target"
     return;
     ;;
   "integ")
@@ -201,7 +201,7 @@ function init {
     THIS_RELEASE_VERSION="$RELEASE_PLF_VERSION"
     THIS_NEXT_SNAPSHOT_VERSION="$NEXT_SNAPSHOT_PLF_VERSION"
     THIS_RELEASE_JIRA_ID="$RELEASE_PLF_JIRA_ID"
-    THIS_RELEASE_ADDITIONAL_OPTS=""
+    THIS_RELEASE_ADDITIONAL_OPTS="-Prelease,distrib -Dgatein.working.dir=target -Dmaven.wagon.provider.http=httpclient -Dcargo.timeout=800000"
     return;
     ;;
   *)

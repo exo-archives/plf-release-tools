@@ -161,7 +161,7 @@ echo "Prepare configuration files ..."
 echo "==============================================================================="
 # BASH Config
 installFile $CONFIG_DIR/bash/bashrc $HOME/.bashrc
-replaceInFile $HOME/.bashrc @@M2_HOME@@ $TOOLS_DIR/$MAVEN_DIRNAME
+replaceInFile $HOME/.bashrc @@M2_HOME@@ $TOOLS_DIR/$MAVEN_3_DIRNAME
 replaceInFile $HOME/.bashrc @@GITHUB_SSH_PRIVATE_KEY@@ $(decompress $github_sshprivatekey)
 source $HOME/.bashrc
 
@@ -185,15 +185,26 @@ replaceInFile $HOME/.m2/settings.xml @@TOMCAT_DIRNAME@@     $TOMCAT_DIRNAME
 replaceInFile $HOME/.m2/settings.xml @@JBOSS_DIRNAME@@     $JBOSS_DIRNAME
 
 echo "==============================================================================="
-echo "= Installing Apache Maven $MAVEN_VERSION ..."
-echo "= MAVEN_HOME : $TOOLS_DIR/$MAVEN_DIRNAME"
+echo "= Installing Apache Maven $MAVEN_3_VERSION ..."
+echo "= MAVEN_HOME : $TOOLS_DIR/$MAVEN_3_DIRNAME"
 echo "==============================================================================="
 
 # Download Maven
-downloadProductArchive "Apache Maven" $MAVEN_VERSION $MAVEN_ARCHIVE $MAVEN_URL
+downloadProductArchive "Apache Maven" $MAVEN_3_VERSION $MAVEN_3_ARCHIVE $MAVEN_3_URL
 
 # Extract archive
-extractProductArchive "Apache Maven" $MAVEN_VERSION $MAVEN_ARCHIVE $MAVEN_DIRNAME
+extractProductArchive "Apache Maven" $MAVEN_3_VERSION $MAVEN_3_ARCHIVE $MAVEN_3_DIRNAME
+
+echo "==============================================================================="
+echo "= Installing Apache Maven $MAVEN_2_VERSION ..."
+echo "= MAVEN_HOME : $TOOLS_DIR/$MAVEN_2_DIRNAME"
+echo "==============================================================================="
+
+# Download Maven
+downloadProductArchive "Apache Maven" $MAVEN_2_VERSION $MAVEN_2_ARCHIVE $MAVEN_2_URL
+
+# Extract archive
+extractProductArchive "Apache Maven" $MAVEN_2_VERSION $MAVEN_2_ARCHIVE $MAVEN_2_DIRNAME
 
 echo "==============================================================================="
 echo "= Installing Apache Tomcat $TOMCAT_VERSION ..."
@@ -230,7 +241,7 @@ extractProductArchive "OpenFire" $OPENFIRE_VERSION $OPENFIRE_ARCHIVE $OPENFIRE_D
 
 echo ""
 echo "==============================================================================="
-echo "= Apache Maven $MAVEN_VERSION is ready "
+echo "= Apache Maven is ready "
 echo "==============================================================================="
 mvn --version
 

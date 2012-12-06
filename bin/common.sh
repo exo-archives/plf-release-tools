@@ -4,10 +4,17 @@ DATE=`date "+%Y-%m-%d--%H-%M-%S"`
 SEP="`echo | tr '\n' '\001'`"
 
 # Maven Infos (Used to build/release)
-MAVEN_VERSION="3.0.3"
-MAVEN_ARCHIVE="apache-maven-$MAVEN_VERSION-bin.zip"
-MAVEN_DIRNAME="apache-maven-$MAVEN_VERSION"
-MAVEN_URL="http://intranet.exoplatform.org/rest/jcr/repository/collaboration/Groups/platform/users/Documents/ReferenceBinaries/SWF/ApacheMaven/$MAVEN_ARCHIVE"
+# Maven 2
+MAVEN_2_VERSION="2.2.1"
+MAVEN_2_ARCHIVE="apache-maven-$MAVEN_2_VERSION-bin.zip"
+MAVEN_2_DIRNAME="apache-maven-$MAVEN_2_VERSION"
+MAVEN_2_URL="http://intranet.exoplatform.org/rest/jcr/repository/collaboration/Groups/platform/users/Documents/ReferenceBinaries/SWF/ApacheMaven/$MAVEN_2_ARCHIVE"
+
+# Maven 3
+MAVEN_3_VERSION="3.0.3"
+MAVEN_3_ARCHIVE="apache-maven-$MAVEN_3_VERSION-bin.zip"
+MAVEN_3_DIRNAME="apache-maven-$MAVEN_3_VERSION"
+MAVEN_3_URL="http://intranet.exoplatform.org/rest/jcr/repository/collaboration/Groups/platform/users/Documents/ReferenceBinaries/SWF/ApacheMaven/$MAVEN_3_ARCHIVE"
 
 # Tomcat Infos (Used to package products)
 TOMCAT_VERSION="6.0.32"

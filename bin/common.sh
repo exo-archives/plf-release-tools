@@ -11,7 +11,7 @@ MAVEN_2_DIRNAME="apache-maven-$MAVEN_2_VERSION"
 MAVEN_2_URL="http://intranet.exoplatform.org/rest/jcr/repository/collaboration/Groups/platform/users/Documents/ReferenceBinaries/SWF/ApacheMaven/$MAVEN_2_ARCHIVE"
 
 # Maven 3
-MAVEN_3_VERSION="3.0.3"
+MAVEN_3_VERSION="3.0.4"
 MAVEN_3_ARCHIVE="apache-maven-$MAVEN_3_VERSION-bin.zip"
 MAVEN_3_DIRNAME="apache-maven-$MAVEN_3_VERSION"
 MAVEN_3_URL="http://intranet.exoplatform.org/rest/jcr/repository/collaboration/Groups/platform/users/Documents/ReferenceBinaries/SWF/ApacheMaven/$MAVEN_3_ARCHIVE"

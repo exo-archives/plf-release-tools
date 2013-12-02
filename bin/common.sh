@@ -54,7 +54,9 @@ fi
 # Shell Environment
 if [ -e $HOME/.bashrc ]; then
   echo "Loading ... $HOME/.bashrc"
-  source $HOME/.bashrc
+  if [ -z $(source $HOME/.bashrc) ]; then
+    echo "Error on reloading bashrc"
+  fi
 fi
 
 # decompress value $1 compressed in base64
@@ -108,7 +110,6 @@ function svnCommand {
   svn $COMMAND --non-interactive --trust-server-cert "$@" $PRJ_DIR/$PRJ
   if [ "$?" -ne "0" ]; then
     echo "!!! Sorry, svn failed in $PRJ_DIR/$PRJ. Process aborted. !!!"
-    exit 1
   fi
   echo "Done."
   echo "==============================================================================="  

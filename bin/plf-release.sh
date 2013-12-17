@@ -34,11 +34,13 @@ function init {
     if [ $1 = ${projects[${i}*3]} ]; then
       PRJ_NAME=${projects[${i}*3+1]}
       THIS_PROJECT="$1"
+      THIS_BRANCH_STRING=RELEASE_${PRJ_NAME}_BRANCH
       THIS_RELEASE_BRANCH_STRING=RELEASE_${PRJ_NAME}_VERSION
       THIS_CURRENT_SNAPSHOT_VERSION_STRING=CURRENT_SNAPSHOT_${PRJ_NAME}_VERSION
       THIS_RELEASE_VERSION_STRING=RELEASE_${PRJ_NAME}_VERSION
       THIS_NEXT_SNAPSHOT_VERSION_STRING=NEXT_SNAPSHOT_${PRJ_NAME}_VERSION
       THIS_RELEASE_JIRA_ID_STRING=RELEASE_${PRJ_NAME}_JIRA_ID
+      eval THIS_BRANCH="\$$THIS_BRANCH_STRING"
       eval THIS_RELEASE_BRANCH="release/\$$THIS_RELEASE_BRANCH_STRING"
       eval THIS_CURRENT_SNAPSHOT_VERSION="\$$THIS_CURRENT_SNAPSHOT_VERSION_STRING"
       eval THIS_RELEASE_VERSION="\$$THIS_RELEASE_VERSION_STRING"
@@ -114,12 +116,20 @@ function afterRelease {
     eval nextSnapshotValue=\$$nextSnapshotVariable
     replaceInFile "<${PRJ_TAG}>$releaseValue</${PRJ_TAG}>" "<${PRJ_TAG}>$nextSnapshotValue</${PRJ_TAG}>" $PRJ_DIR/$1/pom.xml
   done
+  gitCommand $1 add .
+  gitCommand $1 commit -m "[$THIS_RELEASE_JIRA_ID] $2"
 }
 
 function commit {
   gitCommand $1 add .
   gitCommand $1 commit -m "[$THIS_RELEASE_JIRA_ID] $2"
   gitCommand $1 push origin $THIS_RELEASE_BRANCH
+  return;
+}
+
+function commitRelease {
+  gitCommand $1 push origin $THIS_RELEASE_BRANCH:$THIS_BRANCH
+  gitCommand $1 push origin :$THIS_RELEASE_BRANCH
   return;
 }
 
@@ -206,7 +216,12 @@ case $1 in
      exit;
     fi;
     init "$2"
-    afterRelease "$2"
+    plf-git-clone.sh "$2"
+    gitCommand $2 rebase origin/$THIS_RELEASE_BRANCH
+    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ]; then
+      afterRelease "$2" "Upgrade dependencies to next snapshots"
+    fi
+    commitRelease "$2"
     exit;
     ;;
   "full-release")

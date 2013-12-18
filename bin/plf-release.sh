@@ -115,6 +115,7 @@ function afterRelease {
     nextSnapshotVariable=NEXT_SNAPSHOT_${PRJ_NAME}_VERSION
     eval nextSnapshotValue=\$$nextSnapshotVariable
     replaceInFile "<${PRJ_TAG}>$releaseValue</${PRJ_TAG}>" "<${PRJ_TAG}>$nextSnapshotValue</${PRJ_TAG}>" $PRJ_DIR/$1/pom.xml
+     
   done
   gitCommand $1 add .
   gitCommand $1 commit -m "[$THIS_RELEASE_JIRA_ID] $2"
@@ -218,7 +219,7 @@ case $1 in
     init "$2"
     plf-git-clone.sh "$2"
     gitCommand $2 rebase origin/$THIS_RELEASE_BRANCH
-    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ]; then
+    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] &&  [ ! $2 = "gwtframework" ]; then
       afterRelease "$2" "Upgrade dependencies to next snapshots"
     fi
     commitRelease "$2"
@@ -233,7 +234,7 @@ case $1 in
     init "$2"
     plf-git-clone.sh "$2"
     # Kernel project is not neccessary to update dependencies
-    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ]; then 
+    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] &&  [ ! $2 = "gwtframework" ]; then 
       beforeRelease "$2"
       echo "########################################"
       echo "Start Update dependencies for $2"

@@ -9,9 +9,11 @@ projects=(
   'core'          "CORE"                 "org.exoplatform.core.version"
   'ws'            "WS"                   "org.exoplatform.ws.version"
   'docs-style'    "DOCSTYLE"             "org.exoplatform.doc.doc-style.version"
+  'docs-style'    "DOCSTYLE"             "doc-style.version"
   'gwtframework'  "GWTFRAMEWORK"         "org.exoplatform.gwtframework.version"
   'jcr'           "JCR"                  "org.exoplatform.jcr.version"
   'jcr-services'  "JCR_SERVICES"         "org.exoplatform.jcr-services.version"
+  'jcr-services'  "JCR_SERVICES"         "org.exoplatform.jcr.services.version"
   'gatein-portal' "GATEIN"               "org.gatein.portal.version"
   'ide'           "IDE"                  "org.exoplatform.ide.version"
   'platform-ui'   "PLATFORM_UI"          "org.exoplatform.platform-ui.version"
@@ -105,17 +107,24 @@ function createReleaseBranch {
   mvnCommand $1 release:branch -DbranchName=${THIS_RELEASE_BRANCH} $THIS_RELEASE_ADDITIONAL_OPTS
 }
 
+function pushGateinTagAndBranch {
+  gitCommand $1 push origin $RELEASE_GATEIN_VERSION
+  gitCommand $1 push origin release/$RELEASE_GATEIN_VERSION
+}
 function afterRelease {
   gitCommand $1 fetch origin
   for (( i=0;i<$lengthProperties;i++)); do
+    PRJ=${projects[${i}*3]}
     PRJ_NAME=${projects[${i}*3+1]}
     PRJ_TAG=${projects[${i}*3+2]}
+#    snapshotVariable=CURRENT_SNAPSHOT_${PRJ_NAME}_VERSION
     releaseVariable=RELEASE_${PRJ_NAME}_VERSION
+#    eval snapshotValue=\$$snapshotVariable
     eval releaseValue=\$$releaseVariable
     nextSnapshotVariable=NEXT_SNAPSHOT_${PRJ_NAME}_VERSION
     eval nextSnapshotValue=\$$nextSnapshotVariable
     replaceInFile "<${PRJ_TAG}>$releaseValue</${PRJ_TAG}>" "<${PRJ_TAG}>$nextSnapshotValue</${PRJ_TAG}>" $PRJ_DIR/$1/pom.xml
-     
+  
   done
   gitCommand $1 add .
   gitCommand $1 commit -m "[$THIS_RELEASE_JIRA_ID] $2"
@@ -234,7 +243,7 @@ case $1 in
     init "$2"
     plf-git-clone.sh "$2"
     # Kernel project is not neccessary to update dependencies
-    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] &&  [ ! $2 = "gwtframework" ]; then 
+    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] &&  [ ! $2 = "gwtframework" ] &&  [ ! $2 = "platform-ui" ]  && [ ! $2 = "gatein-portal" ]; then 
       beforeRelease "$2"
       echo "########################################"
       echo "Start Update dependencies for $2"
@@ -243,6 +252,9 @@ case $1 in
       commit "$2" "Upgrade dependencies to latest releases"
     fi
     prepareRelease "$2"
+    if [ $2 = "gatein-portal" ]; then
+      pushGateinTagAndBranch "$2"
+    fi
     performRelease "$2"
     echo "!!! DO NOT FORGET TO CLOSE THE STAGING REPOSITORY IN NEXUS !!!"
     exit;

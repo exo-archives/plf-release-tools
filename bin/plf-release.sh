@@ -15,6 +15,7 @@ projects=(
   'jcr-services'  "JCR_SERVICES"         "org.exoplatform.jcr-services.version"
   'jcr-services'  "JCR_SERVICES"         "org.exoplatform.jcr.services.version"
   'gatein-portal' "GATEIN"               "org.gatein.portal.version"
+  'gatein-portal' "GATEIN"               "org.exoplatform.gatein.version"
   'ide'           "IDE"                  "org.exoplatform.ide.version"
   'platform-ui'   "PLATFORM_UI"          "org.exoplatform.platform-ui.version"
   'commons'       "COMMONS"              "org.exoplatform.commons.version"
@@ -126,6 +127,7 @@ function afterRelease {
     replaceInFile "<${PRJ_TAG}>$releaseValue</${PRJ_TAG}>" "<${PRJ_TAG}>$nextSnapshotValue</${PRJ_TAG}>" $PRJ_DIR/$1/pom.xml
   
   done
+  diff $1
   gitCommand $1 add .
   gitCommand $1 commit -m "[$THIS_RELEASE_JIRA_ID] $2"
 }
@@ -243,7 +245,7 @@ case $1 in
     init "$2"
     plf-git-clone.sh "$2"
     # Kernel project is not neccessary to update dependencies
-    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] &&  [ ! $2 = "gwtframework" ] &&  [ ! $2 = "platform-ui" ]  && [ ! $2 = "gatein-portal" ]; then 
+    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] &&  [ ! $2 = "gwtframework" ]; then 
       beforeRelease "$2"
       echo "########################################"
       echo "Start Update dependencies for $2"

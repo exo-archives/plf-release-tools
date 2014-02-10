@@ -43,6 +43,7 @@ PRJ_DIR="$HOME_DIR/projects"
 TOOLS_DIR="$HOME_DIR/tools"
 LOGS_DIR="$HOME_DIR/logs"
 BACKUPS_DIR="$HOME_DIR/backups"
+PATCHES_DIR="$HOME_DIR/patches"
 
 # Credentials config
 CREDENTIALS_FILE=$HOME/.swf_cred

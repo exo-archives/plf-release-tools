@@ -43,12 +43,14 @@ function init {
       THIS_RELEASE_VERSION_STRING=RELEASE_${PRJ_NAME}_VERSION
       THIS_NEXT_SNAPSHOT_VERSION_STRING=NEXT_SNAPSHOT_${PRJ_NAME}_VERSION
       THIS_RELEASE_JIRA_ID_STRING=RELEASE_${PRJ_NAME}_JIRA_ID
+      THIS_PATCHES_STRING=${PRJ_NAME}_PATCHES
       eval THIS_BRANCH="\$$THIS_BRANCH_STRING"
       eval THIS_RELEASE_BRANCH="release/\$$THIS_RELEASE_BRANCH_STRING"
       eval THIS_CURRENT_SNAPSHOT_VERSION="\$$THIS_CURRENT_SNAPSHOT_VERSION_STRING"
       eval THIS_RELEASE_VERSION="\$$THIS_RELEASE_VERSION_STRING"
       eval THIS_NEXT_SNAPSHOT_VERSION="\$$THIS_NEXT_SNAPSHOT_VERSION_STRING"
       eval THIS_RELEASE_JIRA_ID="\$$THIS_RELEASE_JIRA_ID_STRING"
+      eval THIS_PATCHES_VAR="\$$THIS_PATCHES_STRING"
       THIS_RELEASE_ADDITIONAL_OPTS=""
       return
     fi
@@ -88,6 +90,12 @@ function beforeRelease {
     eval releaseValue=\$$releaseVariable
     replaceInFile "<${PRJ_TAG}>$snapshotValue</${PRJ_TAG}>" "<${PRJ_TAG}>$releaseValue</${PRJ_TAG}>" $PRJ_DIR/$1/pom.xml
   done
+  # Apply patches
+  if [[ ! -z "$THIS_PATCHES_VAR" ]]; then
+    for PATCH in $THIS_PATCHES_VAR; do
+      gitCommand $1 am $PATCHES_DIR/$PATCH
+   done
+  fi 
 }
 
 function prepareRelease {
@@ -118,9 +126,7 @@ function afterRelease {
     PRJ=${projects[${i}*3]}
     PRJ_NAME=${projects[${i}*3+1]}
     PRJ_TAG=${projects[${i}*3+2]}
-#    snapshotVariable=CURRENT_SNAPSHOT_${PRJ_NAME}_VERSION
     releaseVariable=RELEASE_${PRJ_NAME}_VERSION
-#    eval snapshotValue=\$$snapshotVariable
     eval releaseValue=\$$releaseVariable
     nextSnapshotVariable=NEXT_SNAPSHOT_${PRJ_NAME}_VERSION
     eval nextSnapshotValue=\$$nextSnapshotVariable

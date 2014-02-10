@@ -36,6 +36,13 @@ Clone from GitHub all platform projects with :
 Configure the release by edit:
 
     ~/plf-release-tools/bin/plf-release-config.sh
+   
+    For each project, edit the following information
+     RELEASE_PROJECT_BRANCH: Project branch to release
+     CURRENT_SNAPSHOT_PROJECT_VERSION: Current SNAPSHOT version
+     RELEASE_PROJECT_VERSION: Version to release
+     NEXT_SNAPSHOT_PROJECT_VERSION: Next snapshot version after release
+     PROJECT_PATCHES: Patches list to apply during release version. The delimiter is space character  
 
 Release each platform projects with :
 

@@ -44,6 +44,7 @@ function init {
       THIS_NEXT_SNAPSHOT_VERSION_STRING=NEXT_SNAPSHOT_${PRJ_NAME}_VERSION
       THIS_RELEASE_JIRA_ID_STRING=RELEASE_${PRJ_NAME}_JIRA_ID
       THIS_PATCHES_STRING=${PRJ_NAME}_PATCHES
+      THIS_PATCHES_AFTER_RELEASE_STRING=${PRJ_NAME}_AFTER_RELEASE_PATCHES
       eval THIS_BRANCH="\$$THIS_BRANCH_STRING"
       eval THIS_RELEASE_BRANCH="release/\$$THIS_RELEASE_BRANCH_STRING"
       eval THIS_CURRENT_SNAPSHOT_VERSION="\$$THIS_CURRENT_SNAPSHOT_VERSION_STRING"
@@ -51,6 +52,7 @@ function init {
       eval THIS_NEXT_SNAPSHOT_VERSION="\$$THIS_NEXT_SNAPSHOT_VERSION_STRING"
       eval THIS_RELEASE_JIRA_ID="\$$THIS_RELEASE_JIRA_ID_STRING"
       eval THIS_PATCHES_VAR="\$$THIS_PATCHES_STRING"
+      eval THIS_PATCHES_AFTER_RELEASE_VAR="\$$THIS_PATCHES_AFTER_RELEASE_STRING"
       THIS_RELEASE_ADDITIONAL_OPTS=""
       return
     fi
@@ -238,6 +240,12 @@ case $1 in
     gitCommand $2 rebase origin/$THIS_RELEASE_BRANCH
     if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] &&  [ ! $2 = "gwtframework" ]; then
       afterRelease "$2" "Upgrade dependencies to next snapshots"
+    fi
+    # Apply patches
+    if [[ ! -z "$THIS_PATCHES_AFTER_RELEASE_VAR" ]]; then
+      for PATCH in $THIS_PATCHES_AFTER_RELEASE_VAR; do
+        gitCommand $2 am $PATCHES_DIR/$PATCH
+      done
     fi
     commitRelease "$2"
     exit;

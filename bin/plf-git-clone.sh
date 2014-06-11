@@ -45,7 +45,7 @@ function clone_all {
     if [ -e $PRJ_DIR/${PROJECT} ]; then
       rm -rf $PRJ_DIR/${PROJECT}
     fi
-    gitCommand ${PROJECT} clone git@github.com:exoplatform/${PROJECT}.git
+    gitCommand ${PROJECT} clone git@github.com:exodev/${PROJECT}.git
     gitCommand ${PROJECT} checkout -b release/${VERSION} remotes/origin/${BRANCH}
   done
 }
@@ -59,7 +59,7 @@ function clone_single {
       if [ -e $PRJ_DIR/${PROJECT} ]; then
         rm -rf $PRJ_DIR/${PROJECT}
       fi
-      gitCommand ${PROJECT} clone git@github.com:exoplatform/${PROJECT}.git
+      gitCommand ${PROJECT} clone git@github.com:exodev/${PROJECT}.git
       gitCommand ${PROJECT} checkout -b release/${VERSION} remotes/origin/${BRANCH}
       break
     fi

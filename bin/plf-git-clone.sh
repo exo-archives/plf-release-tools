@@ -13,14 +13,14 @@ echo "==========================================================================
 # Projects list.
 # Each element contains project name, corresponding stable branch and release version
 projects=(
-  'kernel'        $RELEASE_KERNEL_BRANCH       $RELEASE_KERNEL_VERSION
-  'core'          $RELEASE_CORE_BRANCH         $RELEASE_CORE_VERSION
-  'ws'            $RELEASE_WS_BRANCH           $RELEASE_WS_VERSION
+  #'kernel'        $RELEASE_KERNEL_BRANCH       $RELEASE_KERNEL_VERSION
+  #'core'          $RELEASE_CORE_BRANCH         $RELEASE_CORE_VERSION
+  #'ws'            $RELEASE_WS_BRANCH           $RELEASE_WS_VERSION
   'docs-style'    $RELEASE_DOCSTYLE_BRANCH     $RELEASE_DOCSTYLE_VERSION
-  'gwtframework'  $RELEASE_GWTFRAMEWORK_BRANCH $RELEASE_GWTFRAMEWORK_VERSION
-  'jcr'           $RELEASE_JCR_BRANCH          $RELEASE_JCR_VERSION
-  'jcr-services'  $RELEASE_JCR_SERVICES_BRANCH $RELEASE_JCR_SERVICES_VERSION
-  'gatein-portal' $RELEASE_GATEIN_PLF_BRANCH   $RELEASE_GATEIN_PLF_VERSION
+  #'gwtframework'  $RELEASE_GWTFRAMEWORK_BRANCH $RELEASE_GWTFRAMEWORK_VERSION
+  #'jcr'           $RELEASE_JCR_BRANCH          $RELEASE_JCR_VERSION
+  #'jcr-services'  $RELEASE_JCR_SERVICES_BRANCH $RELEASE_JCR_SERVICES_VERSION
+  #'gatein-portal' $RELEASE_GATEIN_PLF_BRANCH   $RELEASE_GATEIN_PLF_VERSION
   'ide'           $RELEASE_IDE_BRANCH          $RELEASE_IDE_VERSION
   'platform-ui'   $RELEASE_PLATFORM_UI_BRANCH  $RELEASE_PLATFORM_UI_VERSION
   'commons'       $RELEASE_COMMONS_BRANCH      $RELEASE_COMMONS_VERSION

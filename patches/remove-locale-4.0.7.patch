@@ -1,14 +1,14 @@
-From 1294fb16321581c27fb3fcd906eea63822d13ed6 Mon Sep 17 00:00:00 2001
+From f27295fc223d857acf017a0ee7f0daa8e486d03c Mon Sep 17 00:00:00 2001
 From: TRAN Trung-Thanh <thanhtt@exoplatform.com>
-Date: Fri, 16 May 2014 05:17:02 +0200
-Subject: [PATCH] PLF-5905: Disable Finnish locale
+Date: Fri, 25 Jul 2014 04:27:45 +0200
+Subject: [PATCH] PLF-5989: Disable Fi locale
 
 ---
  .../webapp/WEB-INF/conf/common/locales-config.xml  |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/extension/webapp/src/main/webapp/WEB-INF/conf/common/locales-config.xml b/extension/webapp/src/main/webapp/WEB-INF/conf/common/locales-config.xml
-index 76b4548..5a45806 100644
+index 0a79b91..5a37567 100644
 --- a/extension/webapp/src/main/webapp/WEB-INF/conf/common/locales-config.xml
 +++ b/extension/webapp/src/main/webapp/WEB-INF/conf/common/locales-config.xml
 @@ -120,12 +120,12 @@

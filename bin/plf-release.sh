@@ -238,7 +238,7 @@ case $1 in
     init "$2"
     plf-git-clone.sh "$2"
     gitCommand $2 rebase origin/$THIS_RELEASE_BRANCH
-    if [ ! $2 = "kernel" ] && [ ! $2 = "gwtframework" ]; then
+    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] &&  [ ! $2 = "gwtframework" ]; then
       afterRelease "$2" "Upgrade dependencies to next snapshots"
     fi
     # Apply patches
@@ -259,7 +259,7 @@ case $1 in
     init "$2"
     plf-git-clone.sh "$2"
     # Kernel project is not neccessary to update dependencies
-    if [ ! $2 = "kernel" ] && [ ! $2 = "gwtframework" ]; then 
+    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] &&  [ ! $2 = "gwtframework" ]; then 
       beforeRelease "$2"
       echo "########################################"
       echo "Start Update dependencies for $2"

@@ -14,7 +14,7 @@ projects=(
   'jcr'           "JCR"                  "org.exoplatform.jcr.version"
   'jcr-services'  "JCR_SERVICES"         "org.exoplatform.jcr-services.version"
   'jcr-services'  "JCR_SERVICES"         "org.exoplatform.jcr.services.version"
-  'gatein-portal' "GATEIN_PLF"           "org.exoplatform.gatein.version"
+  'gatein-portal' "GATEIN_PLF"           "org.gatein.portal.version"
   'ide'           "IDE"                  "org.exoplatform.ide.version"
   'platform-ui'   "PLATFORM_UI"          "org.exoplatform.platform-ui.version"
   'commons'       "COMMONS"              "org.exoplatform.commons.version"

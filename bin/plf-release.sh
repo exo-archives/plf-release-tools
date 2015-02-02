@@ -15,7 +15,7 @@ projects=(
   'jcr-services'  "JCR_SERVICES"         "org.exoplatform.jcr-services.version"
   'jcr-services'  "JCR_SERVICES"         "org.exoplatform.jcr.services.version"
   'gatein-portal' "GATEIN_PLF"           "org.gatein.portal.version"
-  'maven-depmgt'  "MAVENT_DEPMGT"        "org.exoplatform.depmgt.version"
+  'maven-depmgt'  "MAVEN_DEPMGT"        "org.exoplatform.depmgt.version"
   'ide'           "IDE"                  "org.exoplatform.ide.version"
   'platform-ui'   "PLATFORM_UI"          "org.exoplatform.platform-ui.version"
   'commons'       "COMMONS"              "org.exoplatform.commons.version"

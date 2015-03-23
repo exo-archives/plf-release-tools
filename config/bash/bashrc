@@ -5,6 +5,17 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
+if [ -z "$JAVA_HOME" ]; then
+  JAVA_HOME=@@JAVA_HOME@@
+  export JAVA_HOME
+fi
+
+# For git completion
+if [ ! -f ~/.git-completion.bash ]; then
+  curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
+fi
+source ~/.git-completion.bash
+
 # User specific aliases and functions
 
 
@@ -22,20 +33,4 @@ export M2_HOME=@@M2_HOME@@
 export MAVEN_OPTS="-Xshare:auto -Xms128M -Xmx1.5G -XX:MaxPermSize=256M -Djava.net.preferIPv4Stack=true -Dcom.sun.media.jai.disableMediaLib=true"
 export M2_REPO="$HOME/.m2/repository"
 
-export PATH=$M2_HOME/bin:.:$PATH
-
-
-# If no SSH agent is already running, start one now. Re-use sockets so we never
-# have to start more than one session.
-export SSH_AUTH_SOCK=~/.ssh-socket
-ssh-add -l >/dev/null 2>&1
-if [ $? = 2 ]; then
-   # No ssh-agent running
-   rm -rf $SSH_AUTH_SOCK
-   ssh-agent -a $SSH_AUTH_SOCK >/tmp/.ssh-script
-   #source /tmp/.ssh-script
-   #echo $SSH_AGENT_PID > ~/.ssh-agent-pid
-   rm /tmp/.ssh-script
-   ssh-add ~/.ssh/@@GITHUB_SSH_PRIVATE_KEY@@
-fi
-
+export PATH=$M2_HOME/bin:.:$PATH:$JAVA_HOME/bin

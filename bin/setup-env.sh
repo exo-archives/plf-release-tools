@@ -14,24 +14,13 @@ function installFile {
   if [ -e $2 ]; then
     mv $2 $2.$DATE
     mv $2.$DATE $BACKUPS_DIR
+    echo "Old $2 is backup at $BACKUPS_DIR"
   fi
   mkdir -p ${2%/*}
   cp $1 $2
   chmod 700 $2 #Some files contain passwords
 }
 
-
-function initCredFile {
-  echo "Initialize $CREDENTIALS_FILE"
-  # Backup if exists
-  if [ -e $CREDENTIALS_FILE ]; then
-    mv $CREDENTIALS_FILE $CREDENTIALS_FILE.$DATE
-    mv $CREDENTIALS_FILE.$DATE $BACKUPS_DIR
-  fi
-  mkdir -p ${CREDENTIALS_FILE%/*}
-  touch $CREDENTIALS_FILE
-  chmod 700 $CREDENTIALS_FILE
-}
 
 # Replaces all occurences of $2 by $3 in file $1
 function replaceInFile {
@@ -75,7 +64,7 @@ function extractProductArchive {
   echo "==============================================================================="
   if [ -e $TOOLS_DIR/$4 ]; then
     echo "$1 $2 already extracted in $TOOLS_DIR"
-  else
+  elif [[ $3 == *.zip ]]; then
     unzip $DL_DIR/$3 -d $TOOLS_DIR
     if [ "$?" -ne "0" ]; then
       echo "!!! Sorry, cannot extract $DL_DIR/$3 in $TOOLS_DIR. Installation aborted. !!!"
@@ -83,86 +72,67 @@ function extractProductArchive {
     fi  
     # Add exec flag which aren't always set in zip archives
     if [ -e $TOOLS_DIR/$4 ]; then
-      chmod 755 $TOOLS_DIR/$4/bin/*.sh
+      if [[ -s $TOOLS_DIR/$4/bin/*.sh ]]; then
+        chmod 755 $TOOLS_DIR/$4/bin/*.sh
+      fi
     fi
+  elif [[ $3 == *.bin ]]; then
+    cp $DL_DIR/$3 $TOOLS_DIR/$3
+    chmod 755 $TOOLS_DIR/$3
+    cd $TOOLS_DIR
+    sh $TOOLS_DIR/$3
+    rm $TOOLS_DIR/$3
+  elif [[ $3 == *.tar.gz ]]; then
+    tar zxf $DL_DIR/$3 -C $TOOLS_DIR
+    if [ "$?" -ne "0" ]; then
+      echo "!!! Sorry, cannot extract $DL_DIR/$3 in $TOOLS_DIR. Installation aborted. !!!"
+      exit 1
+    fi
+  else
+    echo "None to extract"
   fi
 }
 
-# Store value $2 with 64b compression under key $1 in $3 file
-function storeCompressedValue {
-  COMPRESSED_VALUE=`echo -n "$2" | openssl enc -base64`
-  echo "$1=$COMPRESSED_VALUE" >> "$3"
-}
 
-# Ask to the user a value named $2 and store it compressed in 64b under key $1 in $CREDENTIALS_FILE
-function storeCredential {
-  echo -n "Please enter your $2 : "
-  stty -echo
-  read VALUE
-  stty echo
-  echo ""
-  storeCompressedValue "$1" "$VALUE" "$CREDENTIALS_FILE"
-}
-
-echo "==============================================================================="
-echo "Environment : "
-echo "==============================================================================="
+printHeader "System Information"
 echo ">>> Operating System :"
 uname -a
-echo ">>> Java :"
-echo "JAVA_HOME   = $JAVA_HOME"
-java -version
-echo ">>> Git :"
-git --version
-echo ">>> Directories :"
-echo "HOME_DIR    = $HOME_DIR"
-echo "SCRIPTS_DIR = $SCRIPTS_DIR"
-echo "CONFIG_DIR  = $CONFIG_DIR"
-echo "DL_DIR      = $DL_DIR"
-echo "PRJ_DIR     = $PRJ_DIR"
-echo "TOOLS_DIR   = $TOOLS_DIR"
-echo "LOGS_DIR    = $LOGS_DIR"
-echo "BACKUPS_DIR = $BACKUPS_DIR"
+if [ -z "$JAVA_HOME" ]; then
+  echo ">>> Java :"
+  echo "JAVA_HOME   = $JAVA_HOME"
+else
+  # Download java
+  downloadProductArchive "JAVA 6" $JAVA6_VERSION $JAVA6_ARCHIVE $JAVA6_URL
+  downloadProductArchive "JAVA 7" $JAVA7_VERSION $JAVA7_ARCHIVE $JAVA7_URL
+  echo "Download is completed"
+  #Extract java  
+  extractProductArchive "JAVA 6" $JAVA6_VERSION $JAVA6_ARCHIVE $JAVA6_DIRNAME
+  extractProductArchive "JAVA 7" $JAVA7_VERSION $JAVA7_ARCHIVE $JAVA7_DIRNAME
+fi
+printFooter "System Information"
 
-echo ""
-echo "==============================================================================="
-echo "Prepare directories ..."
-echo "==============================================================================="
-mkdir -p $DL_DIR
-mkdir -p $TMP_DIR
-mkdir -p $PRJ_DIR
-mkdir -p $TOOLS_DIR
-mkdir -p $LOGS_DIR
-mkdir -p $BACKUPS_DIR
+printHeader "Download maven $MAVEN_30_VERSION"
+# Download Maven
+downloadProductArchive "Apache Maven" $MAVEN_30_VERSION $MAVEN_30_ARCHIVE $MAVEN_30_URL
 
-echo ""
-echo "==============================================================================="
-echo "Ask and save user's credentials ..."
-echo "==============================================================================="
-initCredFile
-storeCredential github_login "GitHub Login"
-storeCredential github_password "GitHub Password"
-storeCredential github_sshprivatekey "File name contains GitHub SSH Private Key"
-storeCredential github_passphrase "GitHub Passphrase"
-storeCredential github_fullname "GitHub Full Name"
-storeCredential github_email "GitHub Email"
-storeCredential exo_login "eXo Login"
-storeCredential exo_password "eXo Password"
-storeCredential jboss_login "JBoss Login"
-storeCredential jboss_password "JBoss Password"
-storeCredential google_login "Google Login"
-storeCredential google_password "Google Password"
-storeCredential gpg_passphrase "GPG Passphrase"
-source $CREDENTIALS_FILE
+# Extract archive
+extractProductArchive "Apache Maven" $MAVEN_30_VERSION $MAVEN_30_ARCHIVE $MAVEN_30_DIRNAME
+printFooter "Download maven $MAVEN_30_VERSION"
 
-echo ""
-echo "==============================================================================="
-echo "Prepare configuration files ..."
-echo "==============================================================================="
+printHeader "Download maven $MAVEN_32_VERSION"
+# Download Maven
+downloadProductArchive "Apache Maven" $MAVEN_32_VERSION $MAVEN_32_ARCHIVE $MAVEN_32_URL
+
+# Extract archive
+extractProductArchive "Apache Maven" $MAVEN_32_VERSION $MAVEN_32_ARCHIVE $MAVEN_32_DIRNAME
+printFooter "Download maven $MAVEN_32_VERSION"
+
+printHeader "Configuration file preparation"
 # BASH Config
 installFile $CONFIG_DIR/bash/bashrc $HOME/.bashrc
-replaceInFile $HOME/.bashrc @@M2_HOME@@ $TOOLS_DIR/$MAVEN_3_DIRNAME
-replaceInFile $HOME/.bashrc @@GITHUB_SSH_PRIVATE_KEY@@ $(decompress $github_sshprivatekey)
+chmod u+x $HOME/.bashrc
+replaceInFile $HOME/.bashrc @@M2_HOME@@ $TOOLS_DIR/$MAVEN_32_DIRNAME
+replaceInFile $HOME/.bashrc @@JAVA_HOME@@ $TOOLS_DIR/$JAVA7_DIRNAME
 source $HOME/.bashrc
 
 # Git Config
@@ -181,79 +151,19 @@ replaceInFile $HOME/.m2/settings.xml @@JBOSS_LOGIN@@        $(decompress $jboss_
 replaceInFile $HOME/.m2/settings.xml @@JBOSS_PASSWORD@@     $(decompress $jboss_password)
 replaceInFile $HOME/.m2/settings.xml @@GPG_KEY_PASSPHRASE@@ $(decompress $gpg_passphrase)
 replaceInFile $HOME/.m2/settings.xml @@TOOLS_DIR@@          $TOOLS_DIR
-replaceInFile $HOME/.m2/settings.xml @@TOMCAT_DIRNAME@@     $TOMCAT_DIRNAME
-replaceInFile $HOME/.m2/settings.xml @@JBOSS_DIRNAME@@     $JBOSS_DIRNAME
+replaceInFile $HOME/.m2/settings.xml @@LOCAL_REPOSITORY@@   $LOCAL_REPOSITORY_DIR
+replaceInFile $HOME/.m2/settings.xml @@SERVER_DIR@@   $LOCAL_REPOSITORY_DIR
+printFooter "Configuration file preparation"
 
-echo "==============================================================================="
-echo "= Installing Apache Maven $MAVEN_3_VERSION ..."
-echo "= MAVEN_HOME : $TOOLS_DIR/$MAVEN_3_DIRNAME"
-echo "==============================================================================="
+printHeader "Check software for release"
+echo "Java version >>> "
+java -version
+echo "Git version >>>"
+git --version
+printFooter "Check software for release"
 
-# Download Maven
-downloadProductArchive "Apache Maven" $MAVEN_3_VERSION $MAVEN_3_ARCHIVE $MAVEN_3_URL
-
-# Extract archive
-extractProductArchive "Apache Maven" $MAVEN_3_VERSION $MAVEN_3_ARCHIVE $MAVEN_3_DIRNAME
-
-echo "==============================================================================="
-echo "= Installing Apache Maven $MAVEN_2_VERSION ..."
-echo "= MAVEN_HOME : $TOOLS_DIR/$MAVEN_2_DIRNAME"
-echo "==============================================================================="
-
-# Download Maven
-downloadProductArchive "Apache Maven" $MAVEN_2_VERSION $MAVEN_2_ARCHIVE $MAVEN_2_URL
-
-# Extract archive
-extractProductArchive "Apache Maven" $MAVEN_2_VERSION $MAVEN_2_ARCHIVE $MAVEN_2_DIRNAME
-
-echo "==============================================================================="
-echo "= Installing Apache Tomcat $TOMCAT_VERSION ..."
-echo "= CATALINA_HOME : $TOOLS_DIR/$TOMCAT_DIRNAME"
-echo "==============================================================================="
-
-# Download Tomcat
-downloadProductArchive "Apache Tomcat" $TOMCAT_VERSION $TOMCAT_ARCHIVE $TOMCAT_URL
-
-# Extract archive
-extractProductArchive "Apache Tomcat" $TOMCAT_VERSION $TOMCAT_ARCHIVE $TOMCAT_DIRNAME
-
-echo "==============================================================================="
-echo "= Installing JBOSS $JBOSS_VERSION ..."
-echo "= JBOSS_HOME : $TOOLS_DIR/$JBOSS_DIRNAME"
-echo "==============================================================================="
-
-# Download Jboss
-downloadProductArchive "JBoss" $JBOSS_VERSION $JBOSS_ARCHIVE $JBOSS_URL
-
-# Extract archive
-extractProductArchive "JBoss" $JBOSS_VERSION $JBOSS_ARCHIVE $JBOSS_DIRNAME
-
-echo "==============================================================================="
-echo "= Installing OpenFire $OPENFIRE_VERSION ..."
-echo "= OPENFIRE_HOME : $TOOLS_DIR/$OPENFIRE_DIRNAME"
-echo "==============================================================================="
-
-# Download OpenFire
-downloadProductArchive "OpenFire" $OPENFIRE_VERSION $OPENFIRE_ARCHIVE $OPENFIRE_URL
-
-# Extract archive
-extractProductArchive "OpenFire" $OPENFIRE_VERSION $OPENFIRE_ARCHIVE $OPENFIRE_DIRNAME
-
-echo ""
-echo "==============================================================================="
-echo "= Apache Maven is ready "
-echo "==============================================================================="
-mvn --version
-
-echo ""
-echo "==============================================================================="
-echo "= Apache Tomcat $TOMCAT_VERSION is ready "
-echo "==============================================================================="
-$TOOLS_DIR/$TOMCAT_DIRNAME/bin/version.sh
-
-echo "==============================================================================="
 echo "eXo Platform release environment ready !!!"
-echo "==============================================================================="
-echo "!!! DO NOT FORGET TO SET UP YOUR GITHUB SSH PRIVATE KEY (~/.ssh/$(decompress $github_sshprivatekey)) !!!"
+
+echo "!!! DO NOT FORGET TO SET UP YOUR GITHUB SSH PRIVATE KEY !!!"
 
 exit 0

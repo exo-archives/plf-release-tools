@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/bin/bash -e
 
 SCRIPTS_DIR=${0%/*}
 source ${SCRIPTS_DIR}/common.sh
@@ -97,18 +97,12 @@ function extractProductArchive {
 printHeader "System Information"
 echo ">>> Operating System :"
 uname -a
-if [ -z "$JAVA_HOME" ]; then
-  echo ">>> Java :"
-  echo "JAVA_HOME   = $JAVA_HOME"
-else
-  # Download java
-  downloadProductArchive "JAVA 6" $JAVA6_VERSION $JAVA6_ARCHIVE $JAVA6_URL
-  downloadProductArchive "JAVA 7" $JAVA7_VERSION $JAVA7_ARCHIVE $JAVA7_URL
-  echo "Download is completed"
-  #Extract java  
-  extractProductArchive "JAVA 6" $JAVA6_VERSION $JAVA6_ARCHIVE $JAVA6_DIRNAME
-  extractProductArchive "JAVA 7" $JAVA7_VERSION $JAVA7_ARCHIVE $JAVA7_DIRNAME
-fi
+# Download java
+downloadProductArchive "JAVA 6" $JAVA6_VERSION $JAVA6_ARCHIVE $JAVA6_URL
+downloadProductArchive "JAVA 7" $JAVA7_VERSION $JAVA7_ARCHIVE $JAVA7_URL
+#Extract java  
+extractProductArchive "JAVA 6" $JAVA6_VERSION $JAVA6_ARCHIVE $JAVA6_DIRNAME
+extractProductArchive "JAVA 7" $JAVA7_VERSION $JAVA7_ARCHIVE $JAVA7_DIRNAME
 printFooter "System Information"
 
 printHeader "Download maven $MAVEN_30_VERSION"
@@ -158,12 +152,13 @@ printFooter "Configuration file preparation"
 printHeader "Check software for release"
 echo "Java version >>> "
 java -version
+echo "JAVA_HOME = $JAVA_HOME"
 echo "Git version >>>"
 git --version
 printFooter "Check software for release"
 
 echo "eXo Platform release environment ready !!!"
-
+echo "Type 'source $HOME/.bashrc' to reload session environment"
 echo "!!! DO NOT FORGET TO SET UP YOUR GITHUB SSH PRIVATE KEY !!!"
 
 exit 0

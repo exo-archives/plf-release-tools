@@ -125,8 +125,10 @@ printHeader "Configuration file preparation"
 # BASH Config
 installFile $CONFIG_DIR/bash/bashrc $HOME/.bashrc
 chmod u+x $HOME/.bashrc
-replaceInFile $HOME/.bashrc @@M2_HOME@@ $TOOLS_DIR/$MAVEN_32_DIRNAME
-replaceInFile $HOME/.bashrc @@JAVA_HOME@@ $TOOLS_DIR/$JAVA7_DIRNAME
+replaceInFile $HOME/.bashrc @@M32_HOME@@ $TOOLS_DIR/$MAVEN_32_DIRNAME
+replaceInFile $HOME/.bashrc @@M30_HOME@@ $TOOLS_DIR/$MAVEN_30_DIRNAME
+replaceInFile $HOME/.bashrc @@JAVA7_HOME@@ $TOOLS_DIR/$JAVA7_DIRNAME
+replaceInFile $HOME/.bashrc @@JAVA6_HOME@@ $TOOLS_DIR/$JAVA6_DIRNAME
 source $HOME/.bashrc
 
 # Git Config
@@ -145,7 +147,6 @@ replaceInFile $HOME/.m2/settings.xml @@JBOSS_LOGIN@@        $(decompress $jboss_
 replaceInFile $HOME/.m2/settings.xml @@JBOSS_PASSWORD@@     $(decompress $jboss_password)
 replaceInFile $HOME/.m2/settings.xml @@GPG_KEY_PASSPHRASE@@ $(decompress $gpg_passphrase)
 replaceInFile $HOME/.m2/settings.xml @@TOOLS_DIR@@          $TOOLS_DIR
-replaceInFile $HOME/.m2/settings.xml @@LOCAL_REPOSITORY@@   $LOCAL_REPOSITORY_DIR
 replaceInFile $HOME/.m2/settings.xml @@SERVER_DIR@@   $LOCAL_REPOSITORY_DIR
 printFooter "Configuration file preparation"
 

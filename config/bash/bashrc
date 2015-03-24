@@ -5,7 +5,10 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
-JAVA_HOME=@@JAVA_HOME@@
+# Java 7 home
+JAVA_HOME=@@JAVA7_HOME@@
+#Java 6 home
+#JAVA_HOME=@@JAVA6_HOME@@
 export JAVA_HOME
 
 # For git completion
@@ -26,8 +29,10 @@ export CLICOLOR=1
 # EDITOR
 export EDITOR=vim
 
-# MAVEN
-export M2_HOME=@@M2_HOME@@
+# MAVEN 3.2
+export M2_HOME=@@M32_HOME@@
+# Maven 3.0
+#export M2_HOME = @@M30_HOME@@
 export MAVEN_OPTS="-Xshare:auto -Xms128M -Xmx1.5G -XX:MaxPermSize=256M -Djava.net.preferIPv4Stack=true -Dcom.sun.media.jai.disableMediaLib=true"
 export M2_REPO="$HOME/.m2/repository"
 

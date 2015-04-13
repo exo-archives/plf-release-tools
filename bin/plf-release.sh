@@ -28,6 +28,10 @@ projects=(
   'platform-public-distributions' "PLATFORM_PUBLIC_DISTRIBUTIONS" "org.exoplatform.platform.distributions.version"
   'platform-private-distributions' "PLATFORM_PRIVATE_DISTRIBUTIONS" "org.exoplatform.platform.private.distributions.version"
   'maven-depmgt-pom' "MAVEN_DEPMGT_POM"  "org.exoplatform.depmgt.version"
+  'acme-sample' "ACME_SAMPLE" "acme-sample"
+  'wai-sample' "WAI_SAMPLE" "wai-sample"
+  'chat-application' "CHAT_APPLICATION" "chat-application"
+  'weemo-extension' "WEEMO_EXTENSION" "weemo-extension"
  )
 
 lengthProperties=$((${#projects[@]}/3))
@@ -45,6 +49,7 @@ function init {
       THIS_RELEASE_JIRA_ID_STRING=RELEASE_${PRJ_NAME}_JIRA_ID
       THIS_PATCHES_STRING=${PRJ_NAME}_PATCHES
       THIS_PATCHES_AFTER_RELEASE_STRING=${PRJ_NAME}_PATCHES_AFTER_RELEASE
+      THIS_RELEASE_ADDITIONAL_OPTS_STRING=${PRJ_NAME}_RELEASE_ADDITIONAL_OPTS_STRING
       eval THIS_BRANCH="\$$THIS_BRANCH_STRING"
       eval THIS_RELEASE_BRANCH="release/\$$THIS_RELEASE_BRANCH_STRING"
       eval THIS_CURRENT_SNAPSHOT_VERSION="\$$THIS_CURRENT_SNAPSHOT_VERSION_STRING"
@@ -238,7 +243,7 @@ case $1 in
     init "$2"
     plf-git-clone.sh "$2"
     gitCommand $2 rebase origin/$THIS_RELEASE_BRANCH
-    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] && [ ! $2 = "gwtframework" ] && [ ! $2 = "maven-depmgt-pom" ]; then
+    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] && [ ! $2 = "gwtframework" ] && [ ! $2 = "maven-depmgt-pom" ] && [ ! $2 = "chat-application" ] && [ ! $2 = "weemo-extension" ] ; then
       afterRelease "$2" "Upgrade dependencies to next snapshots"
     fi
     # Apply patches
@@ -259,7 +264,7 @@ case $1 in
     init "$2"
     plf-git-clone.sh "$2"
     # Kernel project is not neccessary to update dependencies
-    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] && [ ! $2 = "gwtframework" ] && [ ! $2 = "maven-depmgt-pom" ]; then 
+    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] && [ ! $2 = "gwtframework" ] && [ ! $2 = "maven-depmgt-pom" ] && [ ! $2 = "chat-application" ] && [ ! $2 = "weemo-extension" ]; then 
       beforeRelease "$2"
       echo "########################################"
       echo "Start Update dependencies for $2"

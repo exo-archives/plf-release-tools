@@ -15,6 +15,7 @@ projects=(
   'jcr-services'  "JCR_SERVICES"         "org.exoplatform.jcr-services.version"
   'jcr-services'  "JCR_SERVICES"         "org.exoplatform.jcr.services.version"
   'gatein-portal' "GATEIN_PLF"           "org.gatein.portal.version"
+  'gatein-portal' "GATEIN_PLF"           "org.exoplatform.gatein.version"
   'ide'           "IDE"                  "org.exoplatform.ide.version"
   'platform-ui'   "PLATFORM_UI"          "org.exoplatform.platform-ui.version"
   'commons'       "COMMONS"              "org.exoplatform.commons.version"
@@ -243,7 +244,7 @@ case $1 in
     init "$2"
     plf-git-clone.sh "$2"
     gitCommand $2 rebase origin/$THIS_RELEASE_BRANCH
-    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] && [ ! $2 = "gwtframework" ] && [ ! $2 = "maven-depmgt-pom" ] && [ ! $2 = "chat-application" ] && [ ! $2 = "weemo-extension" ] ; then
+    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] && [ ! $2 = "gwtframework" ] && [ ! $2 = "maven-depmgt-pom" ] && [ ! $2 = "weemo-extension" ]; then
       afterRelease "$2" "Upgrade dependencies to next snapshots"
     fi
     # Apply patches
@@ -264,7 +265,7 @@ case $1 in
     init "$2"
     plf-git-clone.sh "$2"
     # Kernel project is not neccessary to update dependencies
-    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] && [ ! $2 = "gwtframework" ] && [ ! $2 = "maven-depmgt-pom" ] && [ ! $2 = "chat-application" ] && [ ! $2 = "weemo-extension" ]; then 
+    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] && [ ! $2 = "gwtframework" ] && [ ! $2 = "maven-depmgt-pom" ] && [ ! $2 = "weemo-extension" ]; then 
       beforeRelease "$2"
       echo "########################################"
       echo "Start Update dependencies for $2"

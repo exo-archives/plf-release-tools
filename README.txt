@@ -44,12 +44,25 @@ Configure the release by edit:
      NEXT_SNAPSHOT_PROJECT_VERSION: Next snapshot version after release
      PROJECT_PATCHES: Patches list to apply during release version. The delimiter is space character
 
-Release each platform projects with :
+Release each platform projects:
+    - Go to bin folder
+    cd  ~/plf-release-tools/bin
+    - Start release
+    plf-release.sh full-release <project_name>
 
-    ~/plf-release-tools/bin/plf-release.sh
+Note: Currently plf-release only works when user in bin folder 
+
+Merge release branch to stable branch then remove release branch
+    - Go to bin folder
+    cd  ~/plf-release-tools/bin
+    - Run
+    plf-release.sh after-release <project_name>
+
+Note: Currently plf-release only works when user in bin folder
 
 Usage guide
 -----------
+
 
 At any moment you can update this set of tools with :
 

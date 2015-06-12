@@ -57,10 +57,17 @@
         <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
         <exo.projects.directory.dependencies>@@TOOLS_DIR@@</exo.projects.directory.dependencies>
         <servers.dir>@@SERVER_DIR@@</servers.dir>
+        <exo.projects.app.tomcat.version>apache-tomcat-6.0.32</exo.projects.app.tomcat.version>
       </properties>
     </profile>  
     <profile>
       <id>release</id>
+      <properties>
+        <gpg.passphrase>@@GPG_KEY_PASSPHRASE@@</gpg.passphrase>
+     </properties>
+    </profile>
+    <profile>
+      <id>exo-release</id>
       <properties>
         <gpg.passphrase>@@GPG_KEY_PASSPHRASE@@</gpg.passphrase>
      </properties>

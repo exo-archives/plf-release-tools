@@ -32,8 +32,8 @@ export EDITOR=vim
 # MAVEN 3.2
 export M2_HOME=@@M32_HOME@@
 # Maven 3.0
-#export M2_HOME = @@M30_HOME@@
-export MAVEN_OPTS="-Xshare:auto -Xms128M -Xmx1.5G -XX:MaxPermSize=256M -Djava.net.preferIPv4Stack=true -Dcom.sun.media.jai.disableMediaLib=true"
+#export M2_HOME=@@M30_HOME@@
+export MAVEN_OPTS="-Xshare:auto -Xms128M -Xmx4G -XX:MaxPermSize=256M -Djava.net.preferIPv4Stack=true -Dcom.sun.media.jai.disableMediaLib=true"
 export M2_REPO="$HOME/.m2/repository"
 
-export PATH=$M2_HOME/bin:.:$PATH:$JAVA_HOME/bin
+export PATH=$JAVA_HOME/bin:$M2_HOME/bin:.:$PATH

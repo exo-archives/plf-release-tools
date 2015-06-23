@@ -28,6 +28,7 @@ projects=(
   'platform'      "PLATFORM"             "org.exoplatform.platform.version"
   'platform-public-distributions' "PLATFORM_PUBLIC_DISTRIBUTIONS" "org.exoplatform.platform.distributions.version"
   'platform-private-distributions' "PLATFORM_PRIVATE_DISTRIBUTIONS" "org.exoplatform.platform.private.distributions.version"
+  'maven-depmgt-pom' "MAVEN_DEPMGT_POM"  "org.exoplatform.depmgt.version"
  )
 
 lengthProperties=$((${#projects[@]}/3))
@@ -236,9 +237,9 @@ case $1 in
      exit;
     fi;
     init "$2"
-    plf-git-clone.sh "$2"
+    ./plf-git-clone.sh "$2"
     gitCommand $2 rebase origin/$THIS_RELEASE_BRANCH
-    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] &&  [ ! $2 = "gwtframework" ]; then
+    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] && [ ! $2 = "gwtframework" ] && [ ! $2 = "maven-depmgt-pom" ]; then
       afterRelease "$2" "Upgrade dependencies to next snapshots"
     fi
     # Apply patches
@@ -257,9 +258,9 @@ case $1 in
      exit;
     fi;
     init "$2"
-    plf-git-clone.sh "$2"
+    ./plf-git-clone.sh "$2"
     # Kernel project is not neccessary to update dependencies
-    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] &&  [ ! $2 = "gwtframework" ]; then 
+    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] && [ ! $2 = "gwtframework" ] && [ ! $2 = "maven-depmgt-pom" ]; then 
       beforeRelease "$2"
       echo "########################################"
       echo "Start Update dependencies for $2"

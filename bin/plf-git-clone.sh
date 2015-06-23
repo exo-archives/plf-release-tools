@@ -34,7 +34,10 @@ projects=(
   'platform-public-distributions' $RELEASE_PLATFORM_PUBLIC_DISTRIBUTIONS_BRANCH
                   $RELEASE_PLATFORM_PUBLIC_DISTRIBUTIONS_VERSION
   'platform-private-distributions' $RELEASE_PLATFORM_PRIVATE_DISTRIBUTIONS_BRANCH
-                  $RELEASE_PLATFORM_PRIVATE_DISTRIBUTIONS_VERSION        )
+                  $RELEASE_PLATFORM_PRIVATE_DISTRIBUTIONS_VERSION
+  'maven-depmgt-pom' $RELEASE_MAVEN_DEPMGT_POM_BRANCH
+                  $RELEASE_MAVEN_DEPMGT_POM_VERSION
+  )
 
 length=${#projects[@]}/3
 function clone_all {

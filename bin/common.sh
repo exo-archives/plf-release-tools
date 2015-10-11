@@ -18,10 +18,10 @@ MAVEN_32_URL="http://storage.exoplatform.org/public/apache-maven/$MAVEN_32_ARCHI
 
 
 # Java version
-JAVA7_VERSION="jdk1.7.0_67"
-JAVA7_ARCHIVE="jdk-7u67-linux-x64.tar.gz"
-JAVA7_DIRNAME="jdk1.7.0_67"
-JAVA7_URL="http://storage.exoplatform.org/public/java/jdk/oracle/7u67/jdk-7u67-linux-x64.tar.gz"
+JAVA7_VERSION="jdk1.7.0_79"
+JAVA7_ARCHIVE="jdk-7u79-linux-x64.tar.gz"
+JAVA7_DIRNAME="jdk1.7.0_79"
+JAVA7_URL="http://storage.exoplatform.org/public/java/jdk/oracle/7u79/jdk-7u79-linux-x64.tar.gz"
 
 JAVA6_VERSION="jdk1.6.0_45"
 JAVA6_ARCHIVE="jdk-6u45-linux-x64.bin"

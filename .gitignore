@@ -40,3 +40,8 @@ target/
 
 # Misc
 *.swp
+
+# setting folders
+backups/
+downloads/
+tools/

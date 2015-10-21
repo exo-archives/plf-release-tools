@@ -28,7 +28,7 @@ projects=(
   'platform'      "PLATFORM"             "org.exoplatform.platform.version"
   'platform-public-distributions' "PLATFORM_PUBLIC_DISTRIBUTIONS" "org.exoplatform.platform.distributions.version"
   'platform-private-distributions' "PLATFORM_PRIVATE_DISTRIBUTIONS" "org.exoplatform.platform.private.distributions.version"
-  'maven-depmgt-pom' "MAVEN_DEPMGT_POM"  "org.exoplatform.depmgt.version"
+  'maven-depmgt-pom' "MAVEN_DEPMGT"  "org.exoplatform.depmgt.version"
   'acme-sample' "ACME_SAMPLE" "acme-sample"
   'wai-sample' "WAI_SAMPLE" "wai-sample"
   'chat-application' "CHAT_APPLICATION" "chat-application"

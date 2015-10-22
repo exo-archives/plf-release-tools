@@ -107,7 +107,7 @@ function beforeRelease {
 }
 
 function prepareRelease {
-  mvnCommand $1 release:prepare -Dtag=$THIS_RELEASE_VERSION -DreleaseVersion=$THIS_RELEASE_VERSION -DdevelopmentVersion=$THIS_NEXT_SNAPSHOT_VERSION -DscmCommentPrefix="[maven-release-plugin] [$THIS_RELEASE_JIRA_ID]" $THIS_RELEASE_ADDITIONAL_OPTS
+  mvnCommand $1 release:prepare -Dtag=$THIS_RELEASE_VERSION -DreleaseVersion=$THIS_RELEASE_VERSION -DdevelopmentVersion=$THIS_NEXT_SNAPSHOT_VERSION -DscmCommentPrefix="[maven-release-plugin] [$THIS_RELEASE_JIRA_ID]" $THIS_RELEASE_ADDITIONAL_OPTS -Darguments="-DskipTests"
 }
 
 function rollbackRelease {
@@ -117,7 +117,7 @@ function rollbackRelease {
 }
 
 function performRelease {
-  mvnCommand $1 release:perform
+  mvnCommand $1 release:perform -Darguments="-DskipTests"
 }
 
 function createReleaseBranch {

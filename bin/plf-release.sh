@@ -109,7 +109,12 @@ function beforeRelease {
 }
 
 function prepareRelease {
+  echo "prepareRelease: $1"
+  if [ ! $1 = "gatein-portal" ] && [ ! $1 = "kernel" ] && [ ! $1 = "ws" ] && [ ! $1 = "core" ] && [ ! $1 = "jcr" ] && [ ! $1 = "jcr-services" ] ; then
   mvnCommand $1 release:prepare -Dtag=$THIS_RELEASE_VERSION -DreleaseVersion=$THIS_RELEASE_VERSION -DdevelopmentVersion=$THIS_NEXT_SNAPSHOT_VERSION -DscmCommentPrefix="[maven-release-plugin] [$THIS_RELEASE_JIRA_ID]" $THIS_RELEASE_ADDITIONAL_OPTS
+  else
+  mvnCommand $1 release:prepare -Dtag=$THIS_RELEASE_VERSION -DreleaseVersion=$THIS_RELEASE_VERSION -DdevelopmentVersion=$THIS_NEXT_SNAPSHOT_VERSION -DscmCommentPrefix="[maven-release-plugin] [$THIS_RELEASE_JIRA_ID]" $THIS_RELEASE_ADDITIONAL_OPTS -Darguments="-Prelease -DskipTests"
+  fi
 }
 
 function rollbackRelease {
@@ -119,7 +124,11 @@ function rollbackRelease {
 }
 
 function performRelease {
+  if [ ! $1 = "gatein-portal" ] && [ ! $1 = "kernel" ] && [ ! $1 = "ws" ] && [ ! $1 = "core" ] && [ ! $1 = "jcr" ] && [ ! $1 = "jcr-services" ] ; then
   mvnCommand $1 release:perform
+  else
+  mvnCommand $1 release:perform -Darguments="-Prelease -DskipTests"
+  fi
 }
 
 function createReleaseBranch {
@@ -268,6 +277,7 @@ case $1 in
     ./plf-git-clone.sh "$2"
     # Kernel project is not neccessary to update dependencies
     if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] && [ ! $2 = "gwtframework" ] && [ ! $2 = "maven-depmgt-pom" ] && [ ! $2 = "weemo-extension" ]; then 
+      echo "before release $2"
       beforeRelease "$2"
       echo "########################################"
       echo "Start Update dependencies for $2"
@@ -275,10 +285,12 @@ case $1 in
       diff "$2"   
       commit "$2" "Upgrade dependencies to latest releases"
     fi
+    echo "prepare to release $2"
     prepareRelease "$2"
     if [ $2 = "gatein-portal" ]; then
       pushGateinTagAndBranch "$2"
     fi
+    echo "perform to release $2"
     performRelease "$2"
     echo "!!! DO NOT FORGET TO CLOSE THE STAGING REPOSITORY IN NEXUS !!!"
     exit;

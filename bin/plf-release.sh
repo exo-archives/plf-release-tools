@@ -26,6 +26,7 @@ projects=(
   'forum'         "FORUM"                "org.exoplatform.forum.version"
   'integration'   "INTEGRATION"          "org.exoplatform.integ.version"
   'platform'      "PLATFORM"             "org.exoplatform.platform.version"
+  'platform'      "PLATFORM"             "exoplatform.version"
   'platform-public-distributions' "PLATFORM_PUBLIC_DISTRIBUTIONS" "org.exoplatform.platform.distributions.version"
   'platform-private-distributions' "PLATFORM_PRIVATE_DISTRIBUTIONS" "org.exoplatform.platform.private.distributions.version"
   'maven-depmgt-pom' "MAVEN_DEPMGT"  "org.exoplatform.depmgt.version"

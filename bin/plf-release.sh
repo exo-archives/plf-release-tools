@@ -33,6 +33,7 @@ projects=(
   'wai-sample' "WAI_SAMPLE" "wai-sample"
   'chat-application' "CHAT_APPLICATION" "chat-application"
   'weemo-extension' "WEEMO_EXTENSION" "weemo-extension"
+  'answers' "ANSWERS" "answers"
  )
 
 lengthProperties=$((${#projects[@]}/3))

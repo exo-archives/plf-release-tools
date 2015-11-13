@@ -121,6 +121,7 @@ function rollbackRelease_old {
   mvnCommand $1 release:rollback -DscmCommentPrefix="[maven-release-plugin] [$THIS_RELEASE_JIRA_ID]" $THIS_RELEASE_ADDITIONAL_OPTS
   gitCommand $1 tag -d $THIS_RELEASE_VERSION
   gitCommand $1 push origin :refs/tags/$THIS_RELEASE_VERSION
+  gitCommand $1 push origin --delete $THIS_RELEASE_BRANCH
 }
 
 function rollbackRelease {

@@ -5,12 +5,13 @@ source ${SCRIPTS_DIR}/common.sh
 source ${SCRIPTS_DIR}/plf-release-config.sh
 
 projects=(
+  'juzu'                     "JUZU"                   "org.juzu"
   'chat-application'         "CHAT"                   "org.exoplatform.addons.chat"
   'remote-edit'              "REMOTE_EDIT"            "org.exoplatform.addons.open-document"
   'wcm-template-pack'        "SITE_TEMPLATE"          "org.exoplatform.addons.wcm-template"
   'task'                     "TASKS"                  "org.exoplatform.addons.task"
   'weemo-extension'          "VIDEO_CALL"             "org.exoplatform.addons.weemo"
-  'kernel'        "KERNEL"               "org.exoplatform.kernel.version"           
+  'kernel'        "KERNEL"               "org.exoplatform.kernel.version"
   'core'          "CORE"                 "org.exoplatform.core.version"
   'ws'            "WS"                   "org.exoplatform.ws.version"
   'docs-style'    "DOCSTYLE"             "org.exoplatform.doc.doc-style.version"
@@ -33,6 +34,7 @@ projects=(
   'platform'      "PLATFORM"             "org.exoplatform.platform.version"
   'platform-public-distributions' "PLATFORM_PUBLIC_DISTRIBUTIONS" "org.exoplatform.platform.distributions.version"
   'platform-private-distributions' "PLATFORM_PRIVATE_DISTRIBUTIONS" "org.exoplatform.platform.private.distributions.version"
+  'platform-private-trial-distributions' "PLATFORM_PRIVATE_TRIAL_DISTRIBUTIONS" "org.exoplatform.platform.private.distributions.version"
   'maven-depmgt-pom' "MAVEN_DEPMGT_POM"  "org.exoplatform.depmgt.version"
  )
 
@@ -88,7 +90,7 @@ function checkVersions {
 }
 
 function beforeRelease {
-  #rm -rf $M2_REPO
+  rm -rf $M2_REPO
   for (( i=0;i<$lengthProperties;i++)); do
     PRJ_NAME=${projects[${i}*3+1]}
     PRJ_TAG=${projects[${i}*3+2]}
@@ -103,12 +105,11 @@ function beforeRelease {
     for PATCH in $THIS_PATCHES_VAR; do
       gitCommand $1 am $PATCHES_DIR/$PATCH
    done
-  fi 
+  fi
 }
 
 function prepareRelease {
-  mvnCommand $1 release:prepare  -Dtag=$THIS_RELEASE_VERSION -DreleaseVersion=$THIS_RELEASE_VERSION -DdevelopmentVersion=$THIS_NEXT_SNAPSHOT_VERSION -DscmCommentPrefix="[maven-release-plugin] [$THIS_RELEASE_JIRA_ID]" $THIS_RELEASE_ADDITIONAL_OPTS
-  notif prepareRelease $1
+  mvnCommand $1 release:prepare -Dtag=$THIS_RELEASE_VERSION -DreleaseVersion=$THIS_RELEASE_VERSION -DdevelopmentVersion=$THIS_NEXT_SNAPSHOT_VERSION -DscmCommentPrefix="[maven-release-plugin] [$THIS_RELEASE_JIRA_ID]" $THIS_RELEASE_ADDITIONAL_OPTS
 }
 
 function rollbackRelease {
@@ -119,7 +120,6 @@ function rollbackRelease {
 
 function performRelease {
   mvnCommand $1 release:perform
-  notif performRelease $1
 }
 
 function createReleaseBranch {
@@ -131,7 +131,7 @@ function pushGateinTagAndBranch {
   gitCommand $1 push origin release/$RELEASE_GATEIN_VERSION
 }
 function afterRelease {
-  #gitCommand $1 fetch origin
+  gitCommand $1 fetch origin
   for (( i=0;i<$lengthProperties;i++)); do
     PRJ=${projects[${i}*3]}
     PRJ_NAME=${projects[${i}*3+1]}
@@ -141,7 +141,7 @@ function afterRelease {
     nextSnapshotVariable=NEXT_SNAPSHOT_${PRJ_NAME}_VERSION
     eval nextSnapshotValue=\$$nextSnapshotVariable
     replaceInFile "<${PRJ_TAG}>$releaseValue</${PRJ_TAG}>" "<${PRJ_TAG}>$nextSnapshotValue</${PRJ_TAG}>" $PRJ_DIR/$1/pom.xml
-  
+
   done
   diff $1
   gitCommand $1 add .
@@ -158,7 +158,6 @@ function commit {
 function commitRelease {
   gitCommand $1 push origin $THIS_RELEASE_BRANCH:$THIS_BRANCH
   gitCommand $1 push origin :$THIS_RELEASE_BRANCH
-  notif commitRelease $1
   return;
 }
 
@@ -172,15 +171,11 @@ function diff {
   return;
 }
 
-function notif {
-  mail -s "[exo-releases] One process terminated ($1 - $2)" mgreau@exoplatform.com  < /dev/null
-}
-
 function usage {
  echo "Usage: $0 action project"
  echo "  action  : The action to do"
  echo "    before-release | prepare-release | perform-release | rollback-release | after-release | full-release | commit | status | diff | check-versions | create-release-branch"
- echo "  project : The project where action must be done" 
+ echo "  project : The project where action must be done"
  echo "   kernel | core | ws | jcr | jcr-services | gatein-portal | gwtframework | ide | commons | ecms | docs-style | social | wiki | calendar | forum | integration | platform | platform-public-distributions | platform-private-distributions"
 }
 
@@ -272,12 +267,12 @@ case $1 in
     init "$2"
     ./plf-git-clone.sh "$2"
     # Kernel project is not neccessary to update dependencies
-    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] && [ ! $2 = "gwtframework" ] && [ ! $2 = "maven-depmgt-pom" ]; then 
+    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] && [ ! $2 = "gwtframework" ] && [ ! $2 = "maven-depmgt-pom" ]; then
       beforeRelease "$2"
       echo "########################################"
       echo "Start Update dependencies for $2"
       echo "########################################"
-      diff "$2"   
+      diff "$2"
       commit "$2" "Upgrade dependencies to latest releases"
     fi
     prepareRelease "$2"
@@ -307,7 +302,7 @@ case $1 in
     init "$2"
     createReleaseBranch "$2"
     exit;
-    ;;    
+    ;;
   "status")
     if [ $# -lt 2 ]; then
      echo ">>> Missing arguments"

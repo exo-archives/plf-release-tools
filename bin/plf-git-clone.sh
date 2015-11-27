@@ -6,9 +6,9 @@ source ${SCRIPTS_DIR}/plf-release-config.sh
 
 #rm -rf $PRJ_DIR/*
 
-echo "==============================================================================="  
+echo "==============================================================================="
 echo "Clone from GitHub all platform projects"
-echo "==============================================================================="  
+echo "==============================================================================="
 
 # Projects list.
 # Each element contains project name, corresponding stable branch and release version
@@ -40,6 +40,8 @@ projects=(
                   $RELEASE_PLATFORM_PUBLIC_DISTRIBUTIONS_VERSION
   'platform-private-distributions' $RELEASE_PLATFORM_PRIVATE_DISTRIBUTIONS_BRANCH
                   $RELEASE_PLATFORM_PRIVATE_DISTRIBUTIONS_VERSION
+  'platform-private-trial-distributions' $RELEASE_PLATFORM_PRIVATE_TRIAL_DISTRIBUTIONS_BRANCH
+                                  $RELEASE_PLATFORM_PRIVATE_TRIAL_DISTRIBUTIONS_VERSION
   'maven-depmgt-pom' $RELEASE_MAVEN_DEPMGT_POM_BRANCH
                   $RELEASE_MAVEN_DEPMGT_POM_VERSION
   )
@@ -71,7 +73,7 @@ function clone_single {
       gitCommand ${PROJECT} checkout -b ${BRANCH} remotes/origin/${BRANCH}
       break
     fi
-  done  
+  done
 }
 
 if [ $# -lt 1 ]; then

@@ -13,6 +13,11 @@ echo "==========================================================================
 # Projects list.
 # Each element contains project name, corresponding stable branch and release version
 projects=(
+  'chat-application'         $RELEASE_CHAT_BRANCH              $RELEASE_CHAT_VERSION
+  'remote-edit'              $RELEASE_REMOTE_EDIT_BRANCH       $RELEASE_REMOTE_EDIT_VERSION
+  'wcm-template-pack'        $RELEASE_SITE_TEMPLATE_BRANCH     $RELEASE_SITE_TEMPLATE_VERSION
+  'task'                    $RELEASE_TASKS_BRANCH             $RELEASE_TASKS_VERSION
+  'weemo-extension'          $RELEASE_VIDEO_CALL_BRANCH        $RELEASE_VIDEO_CALL_VERSION
   'kernel'        $RELEASE_KERNEL_BRANCH       $RELEASE_KERNEL_VERSION
   'core'          $RELEASE_CORE_BRANCH         $RELEASE_CORE_VERSION
   'ws'            $RELEASE_WS_BRANCH           $RELEASE_WS_VERSION
@@ -49,7 +54,7 @@ function clone_all {
       rm -rf $PRJ_DIR/${PROJECT}
     fi
     gitCommand ${PROJECT} clone git@github.com:exoplatform/${PROJECT}.git
-    gitCommand ${PROJECT} checkout -b release/${VERSION} remotes/origin/${BRANCH}
+    gitCommand ${PROJECT} checkout -b ${BRANCH} remotes/origin/${BRANCH}
   done
 }
 
@@ -63,7 +68,7 @@ function clone_single {
         rm -rf $PRJ_DIR/${PROJECT}
       fi
       gitCommand ${PROJECT} clone git@github.com:exoplatform/${PROJECT}.git
-      gitCommand ${PROJECT} checkout -b release/${VERSION} remotes/origin/${BRANCH}
+      gitCommand ${PROJECT} checkout -b ${BRANCH} remotes/origin/${BRANCH}
       break
     fi
   done  

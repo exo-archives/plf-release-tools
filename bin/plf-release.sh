@@ -5,6 +5,11 @@ source ${SCRIPTS_DIR}/common.sh
 source ${SCRIPTS_DIR}/plf-release-config.sh
 
 projects=(
+  'chat-application'         "CHAT"                   "org.exoplatform.addons.chat"
+  'remote-edit'              "REMOTE_EDIT"            "org.exoplatform.addons.open-document"
+  'wcm-template-pack'        "SITE_TEMPLATE"          "org.exoplatform.addons.wcm-template"
+  'task'                     "TASKS"                  "org.exoplatform.addons.task"
+  'weemo-extension'          "VIDEO_CALL"             "org.exoplatform.addons.weemo"
   'kernel'        "KERNEL"               "org.exoplatform.kernel.version"           
   'core'          "CORE"                 "org.exoplatform.core.version"
   'ws'            "WS"                   "org.exoplatform.ws.version"
@@ -83,7 +88,7 @@ function checkVersions {
 }
 
 function beforeRelease {
-  rm -rf $M2_REPO
+  #rm -rf $M2_REPO
   for (( i=0;i<$lengthProperties;i++)); do
     PRJ_NAME=${projects[${i}*3+1]}
     PRJ_TAG=${projects[${i}*3+2]}
@@ -102,7 +107,8 @@ function beforeRelease {
 }
 
 function prepareRelease {
-  mvnCommand $1 release:prepare -Dtag=$THIS_RELEASE_VERSION -DreleaseVersion=$THIS_RELEASE_VERSION -DdevelopmentVersion=$THIS_NEXT_SNAPSHOT_VERSION -DscmCommentPrefix="[maven-release-plugin] [$THIS_RELEASE_JIRA_ID]" $THIS_RELEASE_ADDITIONAL_OPTS
+  mvnCommand $1 release:prepare  -Dtag=$THIS_RELEASE_VERSION -DreleaseVersion=$THIS_RELEASE_VERSION -DdevelopmentVersion=$THIS_NEXT_SNAPSHOT_VERSION -DscmCommentPrefix="[maven-release-plugin] [$THIS_RELEASE_JIRA_ID]" $THIS_RELEASE_ADDITIONAL_OPTS
+  notif prepareRelease $1
 }
 
 function rollbackRelease {
@@ -113,6 +119,7 @@ function rollbackRelease {
 
 function performRelease {
   mvnCommand $1 release:perform
+  notif performRelease $1
 }
 
 function createReleaseBranch {
@@ -124,7 +131,7 @@ function pushGateinTagAndBranch {
   gitCommand $1 push origin release/$RELEASE_GATEIN_VERSION
 }
 function afterRelease {
-  gitCommand $1 fetch origin
+  #gitCommand $1 fetch origin
   for (( i=0;i<$lengthProperties;i++)); do
     PRJ=${projects[${i}*3]}
     PRJ_NAME=${projects[${i}*3+1]}
@@ -151,6 +158,7 @@ function commit {
 function commitRelease {
   gitCommand $1 push origin $THIS_RELEASE_BRANCH:$THIS_BRANCH
   gitCommand $1 push origin :$THIS_RELEASE_BRANCH
+  notif commitRelease $1
   return;
 }
 
@@ -162,6 +170,10 @@ function status {
 function diff {
   gitCommand $1 diff
   return;
+}
+
+function notif {
+  mail -s "[exo-releases] One process terminated ($1 - $2)" mgreau@exoplatform.com  < /dev/null
 }
 
 function usage {

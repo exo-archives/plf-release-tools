@@ -120,6 +120,7 @@ function beforeRelease {
 
 function prepareRelease {
   mvnCommand $1 release:prepare -Dtag=$THIS_RELEASE_VERSION -DreleaseVersion=$THIS_RELEASE_VERSION -DdevelopmentVersion=$THIS_NEXT_SNAPSHOT_VERSION -DscmCommentPrefix="[maven-release-plugin] [$THIS_RELEASE_JIRA_ID]" $THIS_RELEASE_ADDITIONAL_OPTS
+  notif commitRelease $1
 }
 
 function rollbackRelease {
@@ -130,6 +131,7 @@ function rollbackRelease {
 
 function performRelease {
   mvnCommand $1 release:perform
+  notif commitRelease $1
 }
 
 function createReleaseBranch {
@@ -179,6 +181,10 @@ function status {
 function diff {
   gitCommand $1 diff
   return;
+}
+
+function notif {
+  mail -s "[exo-releases] ($1 - $2) : Process terminated." mgreau@exoplatform.com  < /dev/null
 }
 
 function usage {

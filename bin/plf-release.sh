@@ -6,11 +6,21 @@ source ${SCRIPTS_DIR}/plf-release-config.sh
 
 projects=(
   'juzu'                     "JUZU"                   "org.juzu"
-  'chat-application'         "CHAT"                   "org.exoplatform.addons.chat"
-  'remote-edit'              "REMOTE_EDIT"            "org.exoplatform.addons.open-document"
-  'wcm-template-pack'        "SITE_TEMPLATE"          "org.exoplatform.addons.wcm-template"
-  'task'                     "TASKS"                  "org.exoplatform.addons.task"
-  'weemo-extension'          "VIDEO_CALL"             "org.exoplatform.addons.weemo"
+  'chat-application'         "CHAT"                   "org.exoplatform.addons.chat.version"
+  'remote-edit'              "REMOTE_EDIT"            "org.exoplatform.addons.open-document.version"
+  'wcm-template-pack'        "SITE_TEMPLATE"          "org.exoplatform.addons.wcm-template.version"
+  'task'                     "TASKS"                  "org.exoplatform.addons.task.version"
+  'weemo-extension'          "VIDEO_CALL"             "org.exoplatform.addons.weemo.version"
+  'acme-sample'         "ACME"             "org.exoplatform.addons.acme.version"
+  'answers'             "ANSWERS"          "org.exoplatform.addons.answers.version"
+  'cas-addon'           "CAS"              "org.exoplatform.addons.sso.version"
+  'cmis-addon'          "CMIS"             "org.exoplatform.addons.cmis.version"
+  'ide'                 "IDE"              "org.exoplatform.ide.version"
+  'josso-addon'         "JOSSO"            "org.exoplatform.addons.josso.version"
+  'openam-addon'        "OPENAM"           "org.exoplatform.addons.openam.version"
+  'saml2-addon'         "SAML"             "org.exoplatform.addons.saml.version"
+  'spnego-addon'        "SPNEGO"           "org.exoplatform.addons.spnego.version"
+  'wai-sample'          "WAI"              "org.exoplatform.addons.wai.version"
   'kernel'        "KERNEL"               "org.exoplatform.kernel.version"
   'core'          "CORE"                 "org.exoplatform.core.version"
   'ws'            "WS"                   "org.exoplatform.ws.version"
@@ -45,19 +55,19 @@ function init {
     if [ $1 = ${projects[${i}*3]} ]; then
       PRJ_NAME=${projects[${i}*3+1]}
       THIS_PROJECT="$1"
-      THIS_BRANCH_STRING=RELEASE_${PRJ_NAME}_BRANCH
-      THIS_RELEASE_BRANCH_STRING=RELEASE_${PRJ_NAME}_VERSION
-      THIS_CURRENT_SNAPSHOT_VERSION_STRING=CURRENT_SNAPSHOT_${PRJ_NAME}_VERSION
-      THIS_RELEASE_VERSION_STRING=RELEASE_${PRJ_NAME}_VERSION
-      THIS_NEXT_SNAPSHOT_VERSION_STRING=NEXT_SNAPSHOT_${PRJ_NAME}_VERSION
+      THIS"_STRING=RELEASE_${PRJ_NAME}"
+      THIS_RELEASE"_STRING=RELEASE_${PRJ_NAME}"
+      THIS_CURRENT_SNAPSHOT"_STRING=CURRENT_SNAPSHOT_${PRJ_NAME}"
+      THIS_RELEASE"_STRING=RELEASE_${PRJ_NAME}"
+      THIS_NEXT_SNAPSHOT"_STRING=NEXT_SNAPSHOT_${PRJ_NAME}"
       THIS_RELEASE_JIRA_ID_STRING=RELEASE_${PRJ_NAME}_JIRA_ID
       THIS_PATCHES_STRING=${PRJ_NAME}_PATCHES
       THIS_PATCHES_AFTER_RELEASE_STRING=${PRJ_NAME}_PATCHES_AFTER_RELEASE
-      eval THIS_BRANCH="\$$THIS_BRANCH_STRING"
-      eval THIS_RELEASE_BRANCH="release/\$$THIS_RELEASE_BRANCH_STRING"
-      eval THIS_CURRENT_SNAPSHOT_VERSION="\$$THIS_CURRENT_SNAPSHOT_VERSION_STRING"
-      eval THIS_RELEASE_VERSION="\$$THIS_RELEASE_VERSION_STRING"
-      eval THIS_NEXT_SNAPSHOT_VERSION="\$$THIS_NEXT_SNAPSHOT_VERSION_STRING"
+      eval THIS"="\$$THIS"_STRING"
+      eval THIS_RELEASE"="release/\$$THIS_RELEASE"_STRING"
+      eval THIS_CURRENT_SNAPSHOT"="\$$THIS_CURRENT_SNAPSHOT"_STRING"
+      eval THIS_RELEASE"="\$$THIS_RELEASE"_STRING"
+      eval THIS_NEXT_SNAPSHOT"="\$$THIS_NEXT_SNAPSHOT"_STRING"
       eval THIS_RELEASE_JIRA_ID="\$$THIS_RELEASE_JIRA_ID_STRING"
       eval THIS_PATCHES_VAR="\$$THIS_PATCHES_STRING"
       eval THIS_PATCHES_AFTER_RELEASE_VAR="\$$THIS_PATCHES_AFTER_RELEASE_STRING"
@@ -94,8 +104,8 @@ function beforeRelease {
   for (( i=0;i<$lengthProperties;i++)); do
     PRJ_NAME=${projects[${i}*3+1]}
     PRJ_TAG=${projects[${i}*3+2]}
-    snapshotVariable=CURRENT_SNAPSHOT_${PRJ_NAME}_VERSION
-    releaseVariable=RELEASE_${PRJ_NAME}_VERSION
+    snapshotVariable=CURRENT_SNAPSHOT_${PRJ_NAME}"
+    releaseVariable=RELEASE_${PRJ_NAME}"
     eval snapshotValue=\$$snapshotVariable
     eval releaseValue=\$$releaseVariable
     replaceInFile "<${PRJ_TAG}>$snapshotValue</${PRJ_TAG}>" "<${PRJ_TAG}>$releaseValue</${PRJ_TAG}>" $PRJ_DIR/$1/pom.xml
@@ -109,13 +119,13 @@ function beforeRelease {
 }
 
 function prepareRelease {
-  mvnCommand $1 release:prepare -Dtag=$THIS_RELEASE_VERSION -DreleaseVersion=$THIS_RELEASE_VERSION -DdevelopmentVersion=$THIS_NEXT_SNAPSHOT_VERSION -DscmCommentPrefix="[maven-release-plugin] [$THIS_RELEASE_JIRA_ID]" $THIS_RELEASE_ADDITIONAL_OPTS
+  mvnCommand $1 release:prepare -Dtag=$THIS_RELEASE" -DreleaseVersion=$THIS_RELEASE" -DdevelopmentVersion=$THIS_NEXT_SNAPSHOT" -DscmCommentPrefix="[maven-release-plugin] [$THIS_RELEASE_JIRA_ID]" $THIS_RELEASE_ADDITIONAL_OPTS
 }
 
 function rollbackRelease {
   mvnCommand $1 release:rollback -DscmCommentPrefix="[maven-release-plugin] [$THIS_RELEASE_JIRA_ID]" $THIS_RELEASE_ADDITIONAL_OPTS
-  gitCommand $1 tag -d $THIS_RELEASE_VERSION
-  gitCommand $1 push origin :refs/tags/$THIS_RELEASE_VERSION
+  gitCommand $1 tag -d $THIS_RELEASE"
+  gitCommand $1 push origin :refs/tags/$THIS_RELEASE"
 }
 
 function performRelease {
@@ -123,12 +133,12 @@ function performRelease {
 }
 
 function createReleaseBranch {
-  mvnCommand $1 release:branch -DbranchName=${THIS_RELEASE_BRANCH} $THIS_RELEASE_ADDITIONAL_OPTS
+  mvnCommand $1 release:branch -DbranchName=${THIS_RELEASE"} $THIS_RELEASE_ADDITIONAL_OPTS
 }
 
 function pushGateinTagAndBranch {
-  gitCommand $1 push origin $RELEASE_GATEIN_VERSION
-  gitCommand $1 push origin release/$RELEASE_GATEIN_VERSION
+  gitCommand $1 push origin "GATEIN"
+  gitCommand $1 push origin release/"GATEIN"
 }
 function afterRelease {
   gitCommand $1 fetch origin
@@ -136,9 +146,9 @@ function afterRelease {
     PRJ=${projects[${i}*3]}
     PRJ_NAME=${projects[${i}*3+1]}
     PRJ_TAG=${projects[${i}*3+2]}
-    releaseVariable=RELEASE_${PRJ_NAME}_VERSION
+    releaseVariable=RELEASE_${PRJ_NAME}"
     eval releaseValue=\$$releaseVariable
-    nextSnapshotVariable=NEXT_SNAPSHOT_${PRJ_NAME}_VERSION
+    nextSnapshotVariable=NEXT_SNAPSHOT_${PRJ_NAME}"
     eval nextSnapshotValue=\$$nextSnapshotVariable
     replaceInFile "<${PRJ_TAG}>$releaseValue</${PRJ_TAG}>" "<${PRJ_TAG}>$nextSnapshotValue</${PRJ_TAG}>" $PRJ_DIR/$1/pom.xml
 
@@ -151,13 +161,13 @@ function afterRelease {
 function commit {
   gitCommand $1 add .
   gitCommand $1 commit -m "[$THIS_RELEASE_JIRA_ID] $2"
-  gitCommand $1 push origin $THIS_RELEASE_BRANCH
+  gitCommand $1 push origin $THIS_RELEASE"
   return;
 }
 
 function commitRelease {
-  gitCommand $1 push origin $THIS_RELEASE_BRANCH:$THIS_BRANCH
-  gitCommand $1 push origin :$THIS_RELEASE_BRANCH
+  gitCommand $1 push origin $THIS_RELEASE":$THIS"
+  gitCommand $1 push origin :$THIS_RELEASE"
   return;
 }
 
@@ -186,10 +196,10 @@ if [ $# -lt 1 ]; then
 fi;
 #If releasing platform-private-distribution or gatein-portal, use gatein-portal PRD
 if [ $2 = "platform-private-distributions" ] || [ $2 = "gatein-portal" ]; then
-  RELEASE_GATEIN_BRANCH="$RELEASE_GATEIN_PLF_BRANCH"
-  CURRENT_SNAPSHOT_GATEIN_VERSION="$CURRENT_SNAPSHOT_GATEIN_PLF_VERSION"
-  RELEASE_GATEIN_VERSION="$RELEASE_GATEIN_PLF_VERSION"
-  NEXT_SNAPSHOT_GATEIN_VERSION="$NEXT_SNAPSHOT_GATEIN_PLF_VERSION"
+  RELEASE_GATEIN"=""GATEIN_PLF""
+  CURRENT_SNAPSHOT_GATEIN"="$CURRENT_SNAPSHOT_GATEIN_PLF""
+  RELEASE_GATEIN"=""GATEIN_PLF""
+  NEXT_SNAPSHOT_GATEIN"="$NEXT_SNAPSHOT_GATEIN_PLF""
 fi
 
 case $1 in
@@ -245,7 +255,7 @@ case $1 in
     fi;
     init "$2"
     ./plf-git-clone.sh "$2"
-    gitCommand $2 rebase origin/$THIS_RELEASE_BRANCH
+    gitCommand $2 rebase origin/$THIS_RELEASE"
     if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] && [ ! $2 = "gwtframework" ] && [ ! $2 = "maven-depmgt-pom" ]; then
       afterRelease "$2" "Upgrade dependencies to next snapshots"
     fi

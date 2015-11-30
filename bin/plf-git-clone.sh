@@ -18,6 +18,16 @@ projects=(
   'wcm-template-pack'        $RELEASE_SITE_TEMPLATE_BRANCH     $RELEASE_SITE_TEMPLATE_VERSION
   'task'                    $RELEASE_TASKS_BRANCH             $RELEASE_TASKS_VERSION
   'weemo-extension'          $RELEASE_VIDEO_CALL_BRANCH        $RELEASE_VIDEO_CALL_VERSION
+  'acme-sample'         $RELEASE_ACME_BRANCH             $RELEASE_ACME_VERSION
+  'answers'             $RELEASE_ANSWERS_BRANCH          $RELEASE_ANSWERS_VERSION
+  'cas-addon'           $RELEASE_CAS_BRANCH              $RELEASE_CAS_VERSION
+  'cmis-addon'          $RELEASE_CMIS_BRANCH             $RELEASE_CMIS_VERSION
+  'ide'                 $RELEASE_IDE_BRANCH              $RELEASE_IDE_VERSION
+  'josso-addon'         $RELEASE_JOSSO_BRANCH            $RELEASE_JOSSO_VERSION
+  'openam-addon'        $RELEASE_OPENAM_BRANCH           $RELEASE_OPENAM_VERSION
+  'saml2-addon'         $RELEASE_SAML_BRANCH             $RELEASE_SAML_VERSION
+  'spnego-addon'        $RELEASE_SPNEGO_BRANCH           $RELEASE_SPNEGO_VERSION
+  'wai-sample'          $RELEASE_WAI_BRANCH              $RELEASE_WAI_VERSION
   'kernel'        $RELEASE_KERNEL_BRANCH       $RELEASE_KERNEL_VERSION
   'core'          $RELEASE_CORE_BRANCH         $RELEASE_CORE_VERSION
   'ws'            $RELEASE_WS_BRANCH           $RELEASE_WS_VERSION
@@ -26,7 +36,6 @@ projects=(
   'jcr'           $RELEASE_JCR_BRANCH          $RELEASE_JCR_VERSION
   'jcr-services'  $RELEASE_JCR_SERVICES_BRANCH $RELEASE_JCR_SERVICES_VERSION
   'gatein-portal' $RELEASE_GATEIN_PLF_BRANCH   $RELEASE_GATEIN_PLF_VERSION
-  'ide'           $RELEASE_IDE_BRANCH          $RELEASE_IDE_VERSION
   'platform-ui'   $RELEASE_PLATFORM_UI_BRANCH  $RELEASE_PLATFORM_UI_VERSION
   'commons'       $RELEASE_COMMONS_BRANCH      $RELEASE_COMMONS_VERSION
   'ecms'          $RELEASE_ECMS_BRANCH         $RELEASE_ECMS_VERSION

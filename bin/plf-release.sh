@@ -263,7 +263,7 @@ case $1 in
     init "$2"
     ./plf-git-clone.sh "$2"
     gitCommand $2 rebase origin/$THIS_RELEASE_BRANCH
-    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] && [ ! $2 = "gwtframework" ] && [ ! $2 = "maven-depmgt-pom" ] && [ ! $2 = "weemo-extension" ]; then
+    if [ ! $2 = "kernel" ] && [ ! $2 = "gwtframework" ] && [ ! $2 = "maven-depmgt-pom" ] && [ ! $2 = "weemo-extension" ]; then
       afterRelease "$2" "Upgrade dependencies to next snapshots"
     fi
     # Apply patches
@@ -284,7 +284,7 @@ case $1 in
     init "$2"
     ./plf-git-clone.sh "$2"
     # Kernel project is not neccessary to update dependencies
-    if [ ! $2 = "kernel" ] && [ ! $2 = "docs-style" ] && [ ! $2 = "gwtframework" ] && [ ! $2 = "maven-depmgt-pom" ] && [ ! $2 = "weemo-extension" ]; then 
+    if [ ! $2 = "kernel" ] && [ ! $2 = "gwtframework" ] && [ ! $2 = "maven-depmgt-pom" ] && [ ! $2 = "weemo-extension" ]; then 
       echo "before release $2"
       beforeRelease "$2"
       echo "########################################"
